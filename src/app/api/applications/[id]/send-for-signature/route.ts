@@ -143,13 +143,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     .bind(envelopeId, id)
     .run();
 
-  // Fire-and-forget -- the signing URL above is what actually matters for
-  // the immediate redirect; a failed email send shouldn't block that.
-  fetch(N8N_SIGNING_LINK_EMAIL_WEBHOOK, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ applicationId: id, plan: row.plan, lead, resumeLink }),
-  }).catch((err) => console.error("Failed to send signing-link email", err));
+  // Awaited, not fire-and-forget -- on Cloudflare Workers, an unawaited
+  // fetch can get cut off mid-request as soon as the response below is
+  // returned and the execution context tears down. A failed send here
+  // still doesn't block the signing URL response; it's just caught and
+  // logged rather than left to race the response.
+  try {
+    await fetch(N8N_SIGNING_LINK_EMAIL_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ applicationId: id, plan: row.plan, lead, resumeLink }),
+    });
+  } catch (err) {
+    console.error("Failed to send signing-link email", err);
+  }
 
   return NextResponse.json({ url: signingUrl });
 }
