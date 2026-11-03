@@ -17,13 +17,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Database is not configured yet" }, { status: 503 });
   }
 
-  // Someone who closed the tab mid-wizard and comes back through plan
-  // selection again shouldn't get a second, orphaned application for the
-  // same email + plan -- hand back the one they already started instead.
+  // Someone who already has an application for this email + plan -- in
+  // progress, paid but not yet signed, or even fully signed -- shouldn't
+  // get a second one by coming back through plan selection again. This
+  // covers paid applications too: /apply/resume already shows the right
+  // screen for every status (resume signing, fully-signed confirmation,
+  // etc.), so there's never a reason to let a second one be created, and
+  // doing so for an already-paid application would risk a real duplicate
+  // charge if they went all the way through checkout again.
   const existing = await db
     .prepare(
       `SELECT id, resume_token FROM applications
-        WHERE lead_email = ?1 AND plan = ?2 AND payment_status != 'paid'
+        WHERE lead_email = ?1 AND plan = ?2
         ORDER BY updated_at DESC LIMIT 1`
     )
     .bind(lead.email, plan)
