@@ -9,6 +9,11 @@ import { PLANS, type PlanId } from "@/data/apply-content";
 // in "Application Complete."
 const N8N_APPLY_WEBHOOK = "https://n8n.coreautomations.org/webhook/apply-lead-ghl";
 
+// A one-time safety net emailed the moment checkout starts, in case the
+// customer closes Stripe's page before paying and never finds their way
+// back -- same pattern as the DocuSign signing-link email.
+const N8N_CHECKOUT_LINK_EMAIL_WEBHOOK = "https://n8n.coreautomations.org/webhook/checkout-link-email";
+
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json().catch(() => null);
@@ -100,6 +105,24 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       // D1 already has the checkout session id regardless; a failed
       // notification just means GHL doesn't show this stage transition.
       console.error("Failed to notify GHL of payment-pending stage", err);
+    }
+
+    // Awaited, not fire-and-forget -- an unawaited fetch can be cut off
+    // mid-request on Cloudflare Workers as soon as the response below is
+    // returned and the execution context tears down.
+    try {
+      await fetch(N8N_CHECKOUT_LINK_EMAIL_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          applicationId: id,
+          plan: planId,
+          lead: { firstName: row.lead_first_name, lastName: row.lead_last_name, email: row.lead_email },
+          resumeLink: `${origin}/apply/resume?id=${id}&token=${token}`,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to send checkout-link email", err);
     }
 
     return NextResponse.json({ url: session.url });
