@@ -37,10 +37,10 @@ const STYLES = `
   color: #1E1C19;
 }
 .aw-sub { font-size: 14px; line-height: 1.6; color: #6b6558; margin-bottom: 24px; }
-.aw-save-status-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; min-height: 14px; }
+.aw-save-status-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; min-height: 16px; }
 .aw-save-status { font-size: 11px; color: #8a8376; }
-.aw-resume-link { background: none; border: none; padding: 0; color: #8a8376; font-size: 11px; font-weight: 700; text-decoration: underline; cursor: pointer; }
-.aw-resume-link:hover { color: #B89958; }
+.aw-resume-link { background: none; border: none; padding: 0; color: #B89958; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; text-decoration: underline; cursor: pointer; }
+.aw-resume-link:hover { color: #8a6f3f; }
 .aw-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
 .aw-field label { font-size: 12.5px; font-weight: 700; color: #1E1C19; }
 .aw-field .aw-helper { font-size: 12px; color: #8a8376; margin-top: -2px; }
