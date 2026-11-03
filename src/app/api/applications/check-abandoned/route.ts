@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 import { getDb, getAbandonedCheckSecret } from "@/lib/applications-db";
 
 // Called on a schedule (via n8n Cron -> this endpoint, not directly reachable
-// by the public) to find applications left in_progress too long and notify
-// GHL so it can send the actual reminder email. We own the "who's abandoned"
-// logic here so it's testable; n8n's job is just delivering the email.
+// by the public) to find applications stalled too long -- at any of three
+// stages, not just the pre-payment wizard -- and notify GHL so it can send
+// the actual reminder email. We own the "who's stalled" logic here so it's
+// testable; n8n's job is just delivering the email.
+//
+// The same resumeLink works for all three stages: /apply/resume already
+// renders the right screen for whichever one applies (continue filling out
+// the wizard, continue to secure payment, or continue to signing), so no
+// stage-specific copy or routing is needed here.
 const N8N_ABANDONED_WEBHOOK = "https://n8n.coreautomations.org/webhook/abandoned-reminder-ghl";
 const FIRST_REMINDER_DELAY_HOURS = 24;
 const SECOND_REMINDER_DELAY_HOURS = 72; // measured from when the first reminder was sent
@@ -37,7 +43,11 @@ export async function POST(request: Request) {
     .prepare(
       `SELECT id, resume_token, plan, lead_first_name, lead_email, reminder_count
          FROM applications
-        WHERE status = 'in_progress'
+        WHERE (
+          status = 'in_progress'
+          OR (status = 'complete' AND payment_status != 'paid')
+          OR (payment_status = 'paid' AND docusign_status != 'completed')
+        )
           AND reminder_count < ?1
           AND (
             (reminder_count = 0 AND updated_at <= datetime('now', ?2))
