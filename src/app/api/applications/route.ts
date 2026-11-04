@@ -41,10 +41,30 @@ export async function POST(request: Request) {
   const id = crypto.randomUUID();
   const resumeToken = crypto.randomUUID();
 
+  // Validated here (not just trusted from the link) so an expired or
+  // already-redeemed code never gets attached to a new application in the
+  // first place -- checkout re-validates again regardless, but there's no
+  // reason to store a code that's already dead.
+  let discountCode: string | null = null;
+  let discountCents = 0;
+  if (typeof body?.discountCode === "string" && body.discountCode) {
+    const codeRow = await db
+      .prepare(
+        `SELECT amount_cents FROM discount_codes
+          WHERE code = ?1 AND redeemed_at IS NULL AND expires_at > datetime('now')`
+      )
+      .bind(body.discountCode)
+      .first<{ amount_cents: number }>();
+    if (codeRow) {
+      discountCode = body.discountCode;
+      discountCents = codeRow.amount_cents;
+    }
+  }
+
   await db
     .prepare(
-      `INSERT INTO applications (id, resume_token, plan, lead_first_name, lead_last_name, lead_email, lead_phone, eligibility_answers)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO applications (id, resume_token, plan, lead_first_name, lead_last_name, lead_email, lead_phone, eligibility_answers, discount_code)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       id,
@@ -54,9 +74,10 @@ export async function POST(request: Request) {
       lead.lastName,
       lead.email,
       lead.phone,
-      body?.eligibilityAnswers ? JSON.stringify(body.eligibilityAnswers) : null
+      body?.eligibilityAnswers ? JSON.stringify(body.eligibilityAnswers) : null,
+      discountCode
     )
     .run();
 
-  return NextResponse.json({ id, resumeToken });
+  return NextResponse.json({ id, resumeToken, discountCents });
 }

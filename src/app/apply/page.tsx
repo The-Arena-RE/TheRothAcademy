@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function ApplyPage() {
-  return <ApplyWizard />;
+type SearchParams = Promise<{ discount?: string }>;
+
+export default async function ApplyPage({ searchParams }: { searchParams: SearchParams }) {
+  const { discount } = await searchParams;
+  return <ApplyWizard discountCode={discount} />;
 }

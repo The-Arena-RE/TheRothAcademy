@@ -19,8 +19,9 @@
       "migrations_dir": "migrations"
     }
   ],
-  // SSN_ENCRYPTION_KEY, ABANDONED_CHECK_SECRET, STRIPE_SECRET_KEY, and
-  // STRIPE_WEBHOOK_SECRET are intentionally NOT declared here. Any key listed
+  // SSN_ENCRYPTION_KEY, ABANDONED_CHECK_SECRET, STRIPE_SECRET_KEY,
+  // STRIPE_WEBHOOK_SECRET, and DISCOUNT_ADMIN_SECRET are intentionally NOT
+  // declared here. Any key listed
   // under `vars` is reasserted on every deploy -- if a secret of the same
   // name was set via `wrangler secret put` or the dashboard, that deploy
   // silently overwrites it back to the literal value in this file (an empty

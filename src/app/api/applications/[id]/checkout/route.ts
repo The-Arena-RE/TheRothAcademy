@@ -52,13 +52,29 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const row = await db
     .prepare(
       `SELECT plan, status, payment_status, lead_first_name, lead_last_name, lead_email, lead_phone,
-              stripe_checkout_session_id
+              stripe_checkout_session_id, discount_code
          FROM applications WHERE id = ?1 AND resume_token = ?2`
     )
     .bind(id, token)
     .first<Record<string, unknown>>();
 
   if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Re-validated here, not trusted from when the application was created --
+  // an application can sit unpaid for days, well past the code's 24h window,
+  // and the code could since have been redeemed by whoever else it was
+  // shared with.
+  let discountCents = 0;
+  if (row.discount_code) {
+    const discountRow = await db
+      .prepare(
+        `SELECT amount_cents FROM discount_codes
+          WHERE code = ?1 AND redeemed_at IS NULL AND expires_at > datetime('now')`
+      )
+      .bind(row.discount_code)
+      .first<{ amount_cents: number }>();
+    if (discountRow) discountCents = discountRow.amount_cents;
+  }
 
   const planId = row.plan as PlanId;
   const leadEmail = row.lead_email as string;
@@ -98,6 +114,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     rolloverItem.price_data.unit_amount -= UPGRADE_BUNDLE_DISCOUNT * 100;
   }
 
+  const setupFeeCents = Math.max(0, plan.price * 100 - discountCents);
+
   try {
     const session = await createCheckoutSession(secretKey, {
       mode: "payment",
@@ -105,7 +123,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         {
           price_data: {
             currency: "usd",
-            unit_amount: plan.price * 100,
+            unit_amount: setupFeeCents,
             product_data: {
               name: `${plan.name} - Setup Fee`,
             },
@@ -119,6 +137,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         applicationId: id,
         plan: planId,
         upgrades: requestedUpgrades.join(","),
+        discountCode: discountCents > 0 ? (row.discount_code as string) : "",
       },
       success_url: `${origin}/apply/payment-success?session_id={CHECKOUT_SESSION_ID}&id=${id}&token=${token}`,
       cancel_url: `${origin}/apply/payment-cancelled?id=${id}&token=${token}`,

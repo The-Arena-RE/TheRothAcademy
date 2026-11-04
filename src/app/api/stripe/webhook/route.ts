@@ -101,6 +101,20 @@ export async function POST(request: Request) {
   const upgradeIds: UpgradeId[] = row.selected_upgrades ? JSON.parse(row.selected_upgrades) : [];
   const upgradeNames = upgradeIds.map((id) => UPGRADES[id].name);
 
+  // Burn the code only once payment actually succeeds -- not when the
+  // checkout session was created -- so an abandoned/cancelled checkout
+  // doesn't permanently waste a code the lead never actually used.
+  const discountCode = (session.metadata as Record<string, string> | undefined)?.discountCode;
+  if (discountCode) {
+    await db
+      .prepare(
+        `UPDATE discount_codes SET redeemed_at = datetime('now'), redeemed_by_application_id = ?1
+          WHERE code = ?2 AND redeemed_at IS NULL`
+      )
+      .bind(applicationId, discountCode)
+      .run();
+  }
+
   try {
     await fetchWithTimeout(N8N_PAYMENT_WEBHOOK, {
       method: "POST",

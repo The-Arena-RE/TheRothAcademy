@@ -430,9 +430,10 @@ export type ResumeData = {
   alreadyComplete: boolean;
   paymentStatus: "unpaid" | "paid" | "failed";
   docusignStatus: "not_sent" | "sent" | "completed";
+  discountCents: number;
 };
 
-export function ApplyWizard({ resume }: { resume?: ResumeData } = {}) {
+export function ApplyWizard({ resume, discountCode }: { resume?: ResumeData; discountCode?: string } = {}) {
   const [step, setStep] = useState<Step>(resume ? "application" : "plan");
   const [plan, setPlan] = useState<PlanId | null>(resume?.plan ?? null);
   const [lead, setLead] = useState<LeadData>({ firstName: resume?.leadFirstName ?? "", lastName: "", email: "", phone: "" });
@@ -446,19 +447,20 @@ export function ApplyWizard({ resume }: { resume?: ResumeData } = {}) {
     resume ? { id: resume.applicationId, resumeToken: resume.resumeToken } : null
   );
   const [startingApplication, setStartingApplication] = useState(false);
+  const [discountCents, setDiscountCents] = useState(resume?.discountCents ?? 0);
 
   function startApplication() {
     setStartingApplication(true);
     fetch("/api/applications", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan, lead, eligibilityAnswers: answers }),
+      body: JSON.stringify({ plan, lead, eligibilityAnswers: answers, discountCode }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Could not start application");
         return res.json();
       })
-      .then((data: { id: string; resumeToken: string; existing?: boolean }) => {
+      .then((data: { id: string; resumeToken: string; existing?: boolean; discountCents?: number }) => {
         if (data.existing) {
           // Already has an unpaid application for this email + plan -- send
           // them into the real resume flow (full saved section data,
@@ -470,6 +472,7 @@ export function ApplyWizard({ resume }: { resume?: ResumeData } = {}) {
           return;
         }
         setApplication(data);
+        setDiscountCents(data.discountCents ?? 0);
         setStep("application");
         setStartingApplication(false);
       })
@@ -675,6 +678,7 @@ export function ApplyWizard({ resume }: { resume?: ResumeData } = {}) {
               alreadyComplete={resume?.alreadyComplete}
               initialPaymentStatus={resume?.paymentStatus}
               initialDocusignStatus={resume?.docusignStatus}
+              initialDiscountCents={discountCents}
             />
           )}
         </div>

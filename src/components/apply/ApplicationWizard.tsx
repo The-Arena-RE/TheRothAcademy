@@ -185,6 +185,7 @@ type Props = {
   alreadyComplete?: boolean;
   initialPaymentStatus?: "unpaid" | "paid" | "failed";
   initialDocusignStatus?: "not_sent" | "sent" | "completed";
+  initialDiscountCents?: number;
 };
 
 function visibleFields(section: ApplicationSection, values: Record<string, string>) {
@@ -318,6 +319,7 @@ export function ApplicationWizard({
   alreadyComplete = false,
   initialPaymentStatus = "unpaid",
   initialDocusignStatus = "not_sent",
+  initialDiscountCents = 0,
 }: Props) {
   const sections = getApplicationSections(plan);
   const [sectionIndex, setSectionIndex] = useState(initialSectionIndex ?? 0);
@@ -519,7 +521,9 @@ export function ApplicationWizard({
   if (reviewing && !complete) {
     const planInfo = PLANS[plan];
     const upgradesTotal = UPGRADES_ENABLED ? calculateUpgradeTotal(selectedUpgrades) : 0;
-    const amountDueToday = planInfo.price + upgradesTotal;
+    const discountDollars = initialDiscountCents / 100;
+    const discountedSetupFee = Math.max(0, planInfo.price - discountDollars);
+    const amountDueToday = discountedSetupFee + upgradesTotal;
 
     return (
       <div className="aw-card">
@@ -533,9 +537,18 @@ export function ApplicationWizard({
         <div className="aw-review-plan">
           <div>
             <div className="aw-review-plan-name">{planInfo.name}</div>
-            <div className="aw-review-plan-sub">Setup fee</div>
+            <div className="aw-review-plan-sub">
+              Setup fee{discountDollars > 0 && ` — $${discountDollars.toLocaleString()} discount applied`}
+            </div>
           </div>
-          <div className="aw-review-plan-price">${planInfo.price.toLocaleString()}</div>
+          <div className="aw-review-plan-price">
+            {discountDollars > 0 && (
+              <span style={{ textDecoration: "line-through", opacity: 0.5, marginRight: 8, fontWeight: 400 }}>
+                ${planInfo.price.toLocaleString()}
+              </span>
+            )}
+            ${discountedSetupFee.toLocaleString()}
+          </div>
         </div>
 
         {sections.map((s, i) => {

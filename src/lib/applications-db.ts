@@ -12,6 +12,11 @@ export async function getAbandonedCheckSecret() {
   return env.ABANDONED_CHECK_SECRET;
 }
 
+export async function getDiscountAdminSecret() {
+  const { env } = await getCloudflareContext({ async: true });
+  return env.DISCOUNT_ADMIN_SECRET;
+}
+
 export type ApplicationRecord = {
   id: string;
   plan: PlanId;
@@ -26,6 +31,7 @@ export type ApplicationRecord = {
   ssnOnFile: boolean;
   paymentStatus: "unpaid" | "paid" | "failed";
   docusignStatus: "not_sent" | "sent" | "completed";
+  discountCents: number;
 };
 
 // Shared by the resume-by-link page and the GET /api/applications/[id]
@@ -35,10 +41,16 @@ export async function getApplicationByToken(id: string, token: string): Promise<
   const db = await getDb();
   const row = await db
     .prepare(
-      `SELECT id, plan, status, lead_first_name, lead_last_name, lead_email, lead_phone, eligibility_answers,
+      `SELECT applications.id, plan, status, lead_first_name, lead_last_name, lead_email, lead_phone, eligibility_answers,
               personal_info, spouse_info, business_info, retirement_accounts, setup_details,
-              current_section, ssn_encrypted, payment_status, docusign_status
-         FROM applications WHERE id = ?1 AND resume_token = ?2`
+              current_section, ssn_encrypted, payment_status, docusign_status,
+              discount_codes.amount_cents AS discount_amount_cents
+         FROM applications
+         LEFT JOIN discount_codes
+           ON discount_codes.code = applications.discount_code
+          AND discount_codes.redeemed_at IS NULL
+          AND discount_codes.expires_at > datetime('now')
+        WHERE applications.id = ?1 AND resume_token = ?2`
     )
     .bind(id, token)
     .first<Record<string, unknown>>();
@@ -67,6 +79,7 @@ export async function getApplicationByToken(id: string, token: string): Promise<
     ssnOnFile: Boolean(row.ssn_encrypted),
     paymentStatus: (row.payment_status as "unpaid" | "paid" | "failed") ?? "unpaid",
     docusignStatus: (row.docusign_status as "not_sent" | "sent" | "completed") ?? "not_sent",
+    discountCents: (row.discount_amount_cents as number) ?? 0,
   };
 }
 

@@ -49,6 +49,7 @@ export default async function ResumeApplicationPage({ searchParams }: { searchPa
         alreadyComplete: application.status === "complete",
         paymentStatus: application.paymentStatus,
         docusignStatus: application.docusignStatus,
+        discountCents: application.discountCents,
       }}
     />
   );
