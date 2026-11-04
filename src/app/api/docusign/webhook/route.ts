@@ -9,6 +9,19 @@ import { getDocuSignConnectSecret, verifyDocuSignSignature } from "@/lib/docusig
 // signed" and "fulfillment does not begin before the form is fully executed."
 const N8N_DOCUSIGN_COMPLETE_WEBHOOK = "https://n8n.coreautomations.org/webhook/docusign-complete-ghl";
 
+// Caps how long we'll wait on this notification before giving up -- a hung
+// n8n workflow (e.g. an SMTP step stuck on a blocked outbound port) must
+// never be able to stall DocuSign Connect's webhook response indefinitely.
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // DocuSign Connect's JSON payload shape varies by configuration (Classic vs
 // newer Connect, "aggregate" vs a custom template). This reads the handful
 // of field paths actually seen in practice rather than assuming one exact
@@ -97,7 +110,7 @@ export async function POST(request: Request) {
     .run();
 
   try {
-    await fetch(N8N_DOCUSIGN_COMPLETE_WEBHOOK, {
+    await fetchWithTimeout(N8N_DOCUSIGN_COMPLETE_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
