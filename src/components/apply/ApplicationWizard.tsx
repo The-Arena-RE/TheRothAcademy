@@ -619,7 +619,7 @@ export function ApplicationWizard({
             ← Back to Application
           </button>
           <button type="button" className="aw-btn-primary" onClick={finishApplication} disabled={finishing}>
-            {finishing ? "Submitting..." : "Continue to Secure Payment →"}
+            {finishing ? "Submitting..." : "Proceed to Next Step →"}
           </button>
         </div>
       </div>
