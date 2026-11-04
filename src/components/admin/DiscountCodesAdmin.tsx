@@ -49,7 +49,11 @@ export function DiscountCodesAdmin() {
   const [checking, setChecking] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [codes, setCodes] = useState<DiscountCode[]>([]);
-  const [justCreated, setJustCreated] = useState<{ code: string; link: string; expiresAt: string } | null>(null);
+  const [leadFirstName, setLeadFirstName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [justCreated, setJustCreated] = useState<{ code: string; link: string; expiresAt: string; emailed: boolean; emailedTo: string } | null>(
+    null
+  );
 
   async function tryAuth(candidateSecret: string) {
     setError(null);
@@ -85,16 +89,18 @@ export function DiscountCodesAdmin() {
     try {
       const res = await fetch("/api/discount-codes", {
         method: "POST",
-        headers: { Authorization: `Bearer ${secret}` },
+        headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ leadFirstName, leadEmail }),
       });
       if (!res.ok) throw new Error("Could not generate a code");
-      const data: { code: string; amountCents: number; expiresAt: string } = await res.json();
-      const link = `${window.location.origin}/apply?discount=${data.code}`;
-      setJustCreated({ code: data.code, link, expiresAt: data.expiresAt });
+      const data: { code: string; amountCents: number; expiresAt: string; link: string; emailed: boolean } = await res.json();
+      setJustCreated({ code: data.code, link: data.link, expiresAt: data.expiresAt, emailed: data.emailed, emailedTo: leadEmail });
       setCodes((prev) => [
         { code: data.code, amount_cents: data.amountCents, created_at: new Date().toISOString(), expires_at: data.expiresAt, redeemed_at: null, redeemed_by_application_id: null },
         ...prev,
       ]);
+      setLeadFirstName("");
+      setLeadEmail("");
     } catch {
       setError("Could not generate a code. Please try again.");
     } finally {
@@ -144,6 +150,21 @@ export function DiscountCodesAdmin() {
 
         {error && <div className="dca-error">{error}</div>}
 
+        <input
+          type="text"
+          className="dca-input"
+          placeholder="Lead's first name (optional)"
+          value={leadFirstName}
+          onChange={(e) => setLeadFirstName(e.target.value)}
+        />
+        <input
+          type="email"
+          className="dca-input"
+          placeholder="Lead's email (optional -- fill in to email them the link automatically)"
+          value={leadEmail}
+          onChange={(e) => setLeadEmail(e.target.value)}
+        />
+
         <button type="button" className="dca-btn" onClick={generateCode} disabled={generating}>
           {generating ? "Generating..." : "Generate $500 Discount Link"}
         </button>
@@ -166,6 +187,13 @@ export function DiscountCodesAdmin() {
               <div style={{ fontSize: 13, color: "#6b6558" }}>
                 Code <strong>{justCreated.code}</strong> — expires {new Date(justCreated.expiresAt).toLocaleString()}
               </div>
+              {justCreated.emailedTo && (
+                <div style={{ fontSize: 13, marginTop: 6, color: justCreated.emailed ? "#1e7e34" : "#b3261e" }}>
+                  {justCreated.emailed
+                    ? `Emailed to ${justCreated.emailedTo}`
+                    : `Could not send email to ${justCreated.emailedTo} -- copy the link above and send it yourself.`}
+                </div>
+              )}
             </div>
           </div>
         )}

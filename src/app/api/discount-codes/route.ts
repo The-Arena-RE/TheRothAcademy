@@ -5,6 +5,20 @@ const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I -- read alo
 const DEFAULT_AMOUNT_CENTS = 50000; // $500
 const EXPIRY_HOURS = 24;
 
+// Optional -- only fired when staff fill in a lead's name/email on the
+// admin page instead of just generating a link/QR to share themselves.
+const N8N_DISCOUNT_LINK_EMAIL_WEBHOOK = "https://n8n.coreautomations.org/webhook/discount-link-email";
+
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function generateCode() {
   let code = "";
   const bytes = crypto.getRandomValues(new Uint8Array(8));
@@ -30,6 +44,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Database is not configured yet" }, { status: 503 });
   }
 
+  const body = await request.json().catch(() => ({}) as Record<string, unknown>);
+  const leadFirstName = typeof body?.leadFirstName === "string" ? body.leadFirstName.trim() : "";
+  const leadEmail = typeof body?.leadEmail === "string" ? body.leadEmail.trim() : "";
+
   const code = generateCode();
   const expiresAt = new Date(Date.now() + EXPIRY_HOURS * 60 * 60 * 1000).toISOString();
 
@@ -38,7 +56,30 @@ export async function POST(request: Request) {
     .bind(code, DEFAULT_AMOUNT_CENTS, expiresAt)
     .run();
 
-  return NextResponse.json({ code, amountCents: DEFAULT_AMOUNT_CENTS, expiresAt });
+  const link = `${new URL(request.url).origin}/apply?discount=${code}`;
+  let emailed = false;
+
+  if (leadEmail) {
+    try {
+      const res = await fetchWithTimeout(N8N_DISCOUNT_LINK_EMAIL_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead: { firstName: leadFirstName || "there", email: leadEmail },
+          link,
+          amountCents: DEFAULT_AMOUNT_CENTS,
+          expiresAt,
+        }),
+      });
+      emailed = res.ok;
+    } catch (err) {
+      // The code is still created and shown on the admin page regardless --
+      // staff can always copy/paste it themselves if the email fails.
+      console.error("Failed to send discount-link email", err);
+    }
+  }
+
+  return NextResponse.json({ code, amountCents: DEFAULT_AMOUNT_CENTS, expiresAt, link, emailed });
 }
 
 export async function GET(request: Request) {
