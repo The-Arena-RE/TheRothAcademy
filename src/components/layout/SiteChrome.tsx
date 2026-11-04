@@ -13,6 +13,7 @@ const STANDALONE_PATHS = [
   "/apply/payment-success",
   "/apply/payment-cancelled",
   "/apply/signing-complete",
+  "/admin/discount-codes",
 ];
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {

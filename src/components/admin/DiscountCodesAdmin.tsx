@@ -5,24 +5,35 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "roth_discount_admin_secret";
 
 const STYLES = `
-.dca-root { min-height: 100vh; background: #f6f4f0; padding: 48px 20px; }
-.dca-card { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid #e4ddd0; border-radius: 12px; padding: 32px; }
-.dca-h1 { font-size: 22px; font-weight: 700; color: #1E1C19; margin-bottom: 6px; }
-.dca-sub { font-size: 14px; color: #6b6558; margin-bottom: 24px; }
-.dca-input { width: 100%; padding: 12px 14px; border: 1px solid #d8d0c0; border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; }
-.dca-btn { background: #B89958; color: #fff; border: none; border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.dca-root {
+  min-height: 100vh;
+  background: #090a0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+}
+.dca-card { width: 100%; max-width: 720px; background: #15171a; border: 1px solid rgba(244,241,234,0.14); border-radius: 12px; padding: 32px; }
+.dca-h1 { font-size: 22px; font-weight: 700; color: #f4f1ea; margin-bottom: 6px; }
+.dca-sub { font-size: 14px; color: #b7b4ad; margin-bottom: 24px; }
+.dca-input { width: 100%; padding: 12px 14px; border: 1px solid rgba(244,241,234,0.14); border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; background: #1b1d20; color: #f4f1ea; }
+.dca-input::placeholder { color: #71706c; }
+.dca-input:focus { outline: none; border-color: #c6a466; }
+.dca-btn { background: #c6a466; color: #090a0b; border: none; border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .dca-btn:disabled { opacity: 0.6; cursor: default; }
-.dca-error { color: #b3261e; font-size: 13px; margin-bottom: 12px; }
-.dca-result { margin-top: 24px; padding: 20px; border: 1px solid #e4ddd0; border-radius: 10px; background: #fbfaf7; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.dca-error { color: #e4877b; font-size: 13px; margin-bottom: 12px; }
+.dca-result { margin-top: 24px; padding: 20px; border: 1px solid rgba(244,241,234,0.14); border-radius: 10px; background: #1b1d20; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
 .dca-link-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-.dca-link-box { flex: 1; min-width: 220px; font-family: monospace; font-size: 13px; padding: 8px 10px; background: #fff; border: 1px solid #d8d0c0; border-radius: 6px; word-break: break-all; }
-.dca-copy-btn { background: #1E1C19; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; }
-.dca-table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 13px; }
-.dca-table th, .dca-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #ece6d9; }
+.dca-link-box { flex: 1; min-width: 220px; font-family: monospace; font-size: 13px; padding: 8px 10px; background: #090a0b; color: #f4f1ea; border: 1px solid rgba(244,241,234,0.14); border-radius: 6px; word-break: break-all; }
+.dca-copy-btn { background: #c6a466; color: #090a0b; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.dca-table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 13px; color: #f4f1ea; }
+.dca-table th { color: #b7b4ad; font-weight: 600; }
+.dca-table th, .dca-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(244,241,234,0.14); }
 .dca-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
-.dca-badge-active { background: #e6f4ea; color: #1e7e34; }
-.dca-badge-expired { background: #f1ecec; color: #8a8178; }
-.dca-badge-redeemed { background: #eaf0fb; color: #2255a4; }
+.dca-badge-active { background: rgba(97, 191, 130, 0.16); color: #6fd398; }
+.dca-badge-expired { background: rgba(183, 180, 173, 0.16); color: #b7b4ad; }
+.dca-badge-redeemed { background: rgba(140, 170, 230, 0.16); color: #9ab8ef; }
 `;
 
 type DiscountCode = {
@@ -171,12 +182,14 @@ export function DiscountCodesAdmin() {
 
         {justCreated && (
           <div className="dca-result">
-            <img
-              src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(justCreated.link)}`}
-              alt="QR code for discount link"
-              width={180}
-              height={180}
-            />
+            <div style={{ background: "#fff", padding: 10, borderRadius: 8, lineHeight: 0 }}>
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(justCreated.link)}`}
+                alt="QR code for discount link"
+                width={180}
+                height={180}
+              />
+            </div>
             <div style={{ flex: 1, minWidth: 220 }}>
               <div className="dca-link-row">
                 <div className="dca-link-box">{justCreated.link}</div>
@@ -184,11 +197,12 @@ export function DiscountCodesAdmin() {
                   Copy
                 </button>
               </div>
-              <div style={{ fontSize: 13, color: "#6b6558" }}>
-                Code <strong>{justCreated.code}</strong> — expires {new Date(justCreated.expiresAt).toLocaleString()}
+              <div style={{ fontSize: 13, color: "#b7b4ad" }}>
+                Code <strong style={{ color: "#f4f1ea" }}>{justCreated.code}</strong> — expires{" "}
+                {new Date(justCreated.expiresAt).toLocaleString()}
               </div>
               {justCreated.emailedTo && (
-                <div style={{ fontSize: 13, marginTop: 6, color: justCreated.emailed ? "#1e7e34" : "#b3261e" }}>
+                <div style={{ fontSize: 13, marginTop: 6, color: justCreated.emailed ? "#6fd398" : "#e4877b" }}>
                   {justCreated.emailed
                     ? `Emailed to ${justCreated.emailedTo}`
                     : `Could not send email to ${justCreated.emailedTo} -- copy the link above and send it yourself.`}
@@ -223,7 +237,7 @@ export function DiscountCodesAdmin() {
             })}
             {codes.length === 0 && (
               <tr>
-                <td colSpan={4} style={{ color: "#6b6558" }}>
+                <td colSpan={4} style={{ color: "#b7b4ad" }}>
                   No codes generated yet.
                 </td>
               </tr>
