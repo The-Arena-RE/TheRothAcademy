@@ -440,7 +440,7 @@ export function ApplicationWizard({
       const res = await fetch(`/api/applications/${applicationId}/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: resumeToken }),
+        body: JSON.stringify({ token: resumeToken, selectedUpgrades }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.url) {

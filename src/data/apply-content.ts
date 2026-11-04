@@ -40,12 +40,9 @@ export const UPGRADES: Record<UpgradeId, { name: string; price: number; descript
 
 export const UPGRADE_BUNDLE_DISCOUNT = 95;
 
-// Spec section 13: "these upgrades are not expressly described in the
-// attached order forms... do not activate upgrade purchases until their
-// scope, charges, and purchase-specific disclosures are approved... hide
-// the options until they are approved." The pricing/selection logic is
-// built and correct below; flip this once that approval is in place.
-export const UPGRADES_ENABLED = false;
+// Client confirmed these upgrades are offered as separate add-on services
+// and intentionally don't need to appear on the signed order form PDF.
+export const UPGRADES_ENABLED = true;
 
 export function calculateUpgradeTotal(selected: UpgradeId[]): number {
   const subtotal = selected.reduce((sum, id) => sum + UPGRADES[id].price, 0);

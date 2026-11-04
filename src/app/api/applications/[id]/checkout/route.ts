@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/applications-db";
 import { createCheckoutSession, getStripeSecretKey, StripeError } from "@/lib/stripe";
-import { PLANS, type PlanId } from "@/data/apply-content";
+import { PLANS, UPGRADES, UPGRADE_BUNDLE_DISCOUNT, UPGRADES_ENABLED, type PlanId, type UpgradeId } from "@/data/apply-content";
 
 // Fires once the Stripe Checkout Session is created, moving the opportunity
 // to the "Payment Pending" stage so an abandoned checkout (customer leaves
@@ -34,6 +34,13 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const body = await request.json().catch(() => null);
   const token = body?.token;
   if (!token) return NextResponse.json({ error: "Missing resume token" }, { status: 400 });
+
+  // Only honor upgrades the client sent if they're both real upgrade IDs and
+  // currently enabled server-side -- this is the actual amount we'll charge,
+  // so it can't just trust whatever the client claims was selected.
+  const requestedUpgrades: UpgradeId[] = UPGRADES_ENABLED && Array.isArray(body?.selectedUpgrades)
+    ? (body.selectedUpgrades as unknown[]).filter((u): u is UpgradeId => typeof u === "string" && u in UPGRADES)
+    : [];
 
   let db;
   try {
@@ -72,6 +79,25 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const plan = PLANS[planId];
   const origin = new URL(request.url).origin;
 
+  const upgradeLineItems = requestedUpgrades.map((upgradeId) => ({
+    price_data: {
+      currency: "usd",
+      unit_amount: UPGRADES[upgradeId].price * 100,
+      product_data: {
+        name: `${UPGRADES[upgradeId].name} (Add-on)`,
+      },
+    },
+    quantity: 1,
+  }));
+
+  if (requestedUpgrades.includes("priority_processing") && requestedUpgrades.includes("rollover_concierge")) {
+    // Stripe line items can't have a negative unit_amount, so the bundle
+    // discount is applied by reducing one upgrade's own price instead of
+    // adding a separate negative item.
+    const rolloverItem = upgradeLineItems[requestedUpgrades.indexOf("rollover_concierge")];
+    rolloverItem.price_data.unit_amount -= UPGRADE_BUNDLE_DISCOUNT * 100;
+  }
+
   try {
     const session = await createCheckoutSession(secretKey, {
       mode: "payment",
@@ -86,19 +112,23 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           },
           quantity: 1,
         },
+        ...upgradeLineItems,
       ],
       customer_email: leadEmail,
       metadata: {
         applicationId: id,
         plan: planId,
+        upgrades: requestedUpgrades.join(","),
       },
       success_url: `${origin}/apply/payment-success?session_id={CHECKOUT_SESSION_ID}&id=${id}&token=${token}`,
       cancel_url: `${origin}/apply/payment-cancelled?id=${id}&token=${token}`,
     });
 
     await db
-      .prepare(`UPDATE applications SET stripe_checkout_session_id = ?1, updated_at = datetime('now') WHERE id = ?2`)
-      .bind(session.id as string, id)
+      .prepare(
+        `UPDATE applications SET stripe_checkout_session_id = ?1, selected_upgrades = ?2, updated_at = datetime('now') WHERE id = ?3`
+      )
+      .bind(session.id as string, requestedUpgrades.length ? JSON.stringify(requestedUpgrades) : null, id)
       .run();
 
     try {
