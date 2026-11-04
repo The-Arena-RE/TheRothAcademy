@@ -14,6 +14,21 @@ const N8N_APPLY_WEBHOOK = "https://n8n.coreautomations.org/webhook/apply-lead-gh
 // back -- same pattern as the DocuSign signing-link email.
 const N8N_CHECKOUT_LINK_EMAIL_WEBHOOK = "https://n8n.coreautomations.org/webhook/checkout-link-email";
 
+// Caps how long we'll wait on a side-effect webhook before giving up --
+// a hung n8n workflow (e.g. an SMTP step stuck on a blocked outbound port)
+// must never be able to stall the actual checkout response. Awaited calls
+// still need a hard ceiling, not just a try/catch around a fetch that could
+// hang forever.
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json().catch(() => null);
@@ -87,7 +102,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       .run();
 
     try {
-      await fetch(N8N_APPLY_WEBHOOK, {
+      await fetchWithTimeout(N8N_APPLY_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -107,11 +122,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       console.error("Failed to notify GHL of payment-pending stage", err);
     }
 
-    // Awaited, not fire-and-forget -- an unawaited fetch can be cut off
-    // mid-request on Cloudflare Workers as soon as the response below is
-    // returned and the execution context tears down.
+    // Awaited (not fire-and-forget, for the Cloudflare Workers reason noted
+    // on fetchWithTimeout above) but capped with a timeout -- this is a
+    // safety-net email, not something that should ever be able to block
+    // the actual checkout redirect.
     try {
-      await fetch(N8N_CHECKOUT_LINK_EMAIL_WEBHOOK, {
+      await fetchWithTimeout(N8N_CHECKOUT_LINK_EMAIL_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -23,6 +23,19 @@ const N8N_DOCUSIGN_RESUME_WEBHOOK = "https://n8n.coreautomations.org/webhook/doc
 // since embedded signing itself never emails them.
 const N8N_SIGNING_LINK_EMAIL_WEBHOOK = "https://n8n.coreautomations.org/webhook/docusign-signing-link-email";
 
+// Caps how long we'll wait on a side-effect webhook before giving up -- a
+// hung n8n workflow (e.g. an SMTP step stuck on a blocked outbound port)
+// must never be able to stall the actual signing redirect.
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json().catch(() => null);
@@ -143,13 +156,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     .bind(envelopeId, id)
     .run();
 
-  // Awaited, not fire-and-forget -- on Cloudflare Workers, an unawaited
-  // fetch can get cut off mid-request as soon as the response below is
-  // returned and the execution context tears down. A failed send here
-  // still doesn't block the signing URL response; it's just caught and
-  // logged rather than left to race the response.
+  // Awaited (not fire-and-forget, for the Cloudflare Workers reason noted
+  // on fetchWithTimeout above) but capped with a timeout -- this is a
+  // safety-net email, not something that should ever be able to block
+  // the actual signing redirect.
   try {
-    await fetch(N8N_SIGNING_LINK_EMAIL_WEBHOOK, {
+    await fetchWithTimeout(N8N_SIGNING_LINK_EMAIL_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ applicationId: id, plan: row.plan, lead, resumeLink }),
