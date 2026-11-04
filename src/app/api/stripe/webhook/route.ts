@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/applications-db";
 import { getStripeWebhookSecret, verifyStripeSignature } from "@/lib/stripe";
+import { UPGRADES, type UpgradeId } from "@/data/apply-content";
 
 // The one source of truth for "did this application actually get paid."
 // Stripe calls this directly -- the browser redirect to /apply/payment-success
@@ -8,6 +9,19 @@ import { getStripeWebhookSecret, verifyStripeSignature } from "@/lib/stripe";
 // per the spec's "use reliable payment status verification rather than
 // trusting a website success page alone" requirement.
 const N8N_PAYMENT_WEBHOOK = "https://n8n.coreautomations.org/webhook/payment-complete-ghl";
+
+// Same reasoning as the other routes' fetchWithTimeout: a hung n8n workflow
+// must never be able to stall the response to Stripe (which retries on
+// timeout, redelivering an event this handler has already fully applied).
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 export async function POST(request: Request) {
   const rawBody = await request.text();
@@ -45,7 +59,7 @@ export async function POST(request: Request) {
 
   const row = await db
     .prepare(
-      `SELECT payment_status, plan, lead_first_name, lead_last_name, lead_email, lead_phone FROM applications WHERE id = ?1`
+      `SELECT payment_status, plan, lead_first_name, lead_last_name, lead_email, lead_phone, selected_upgrades FROM applications WHERE id = ?1`
     )
     .bind(applicationId)
     .first<{
@@ -55,6 +69,7 @@ export async function POST(request: Request) {
       lead_last_name: string;
       lead_email: string;
       lead_phone: string;
+      selected_upgrades: string | null;
     }>();
 
   if (!row) return NextResponse.json({ error: "Application not found" }, { status: 404 });
@@ -83,8 +98,11 @@ export async function POST(request: Request) {
     .bind(stripeCheckoutSessionId, stripePaymentIntentId, amountPaidCents, applicationId)
     .run();
 
+  const upgradeIds: UpgradeId[] = row.selected_upgrades ? JSON.parse(row.selected_upgrades) : [];
+  const upgradeNames = upgradeIds.map((id) => UPGRADES[id].name);
+
   try {
-    await fetch(N8N_PAYMENT_WEBHOOK, {
+    await fetchWithTimeout(N8N_PAYMENT_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -100,6 +118,8 @@ export async function POST(request: Request) {
         stripeCheckoutSessionId,
         stripePaymentIntentId,
         paidAt,
+        upgrades: upgradeIds,
+        upgradeNames,
       }),
     });
   } catch (err) {
