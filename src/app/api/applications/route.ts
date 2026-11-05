@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     const codeRow = await db
       .prepare(
         `SELECT amount_cents FROM discount_codes
-          WHERE code = ?1 AND redeemed_at IS NULL AND expires_at > datetime('now')`
+          WHERE code = ?1 AND disabled_at IS NULL AND (unlimited = 1 OR redeemed_at IS NULL) AND expires_at > datetime('now')`
       )
       .bind(body.discountCode)
       .first<{ amount_cents: number }>();

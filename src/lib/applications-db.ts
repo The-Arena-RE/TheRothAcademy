@@ -48,7 +48,8 @@ export async function getApplicationByToken(id: string, token: string): Promise<
          FROM applications
          LEFT JOIN discount_codes
            ON discount_codes.code = applications.discount_code
-          AND discount_codes.redeemed_at IS NULL
+          AND discount_codes.disabled_at IS NULL
+          AND (discount_codes.unlimited = 1 OR discount_codes.redeemed_at IS NULL)
           AND discount_codes.expires_at > datetime('now')
         WHERE applications.id = ?1 AND resume_token = ?2`
     )

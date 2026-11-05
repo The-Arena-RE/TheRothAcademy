@@ -103,13 +103,15 @@ export async function POST(request: Request) {
 
   // Burn the code only once payment actually succeeds -- not when the
   // checkout session was created -- so an abandoned/cancelled checkout
-  // doesn't permanently waste a code the lead never actually used.
+  // doesn't permanently waste a code the lead never actually used. Unlimited
+  // codes are never marked redeemed at all -- that's what keeps them usable
+  // by every applicant until staff disables them.
   const discountCode = (session.metadata as Record<string, string> | undefined)?.discountCode;
   if (discountCode) {
     await db
       .prepare(
         `UPDATE discount_codes SET redeemed_at = datetime('now'), redeemed_by_application_id = ?1
-          WHERE code = ?2 AND redeemed_at IS NULL`
+          WHERE code = ?2 AND redeemed_at IS NULL AND unlimited = 0`
       )
       .bind(applicationId, discountCode)
       .run();

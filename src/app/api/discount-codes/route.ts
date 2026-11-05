@@ -47,13 +47,25 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}) as Record<string, unknown>);
   const leadFirstName = typeof body?.leadFirstName === "string" ? body.leadFirstName.trim() : "";
   const leadEmail = typeof body?.leadEmail === "string" ? body.leadEmail.trim() : "";
+  const unlimited = body?.unlimited === true;
+
+  // Staff can type a custom dollar amount; falls back to the $500 default
+  // (e.g. for the plain single-use link) if left blank or invalid.
+  const customAmount = Number(body?.amountDollars);
+  const amountCents =
+    Number.isFinite(customAmount) && customAmount > 0 ? Math.round(customAmount * 100) : DEFAULT_AMOUNT_CENTS;
 
   const code = generateCode();
-  const expiresAt = new Date(Date.now() + EXPIRY_HOURS * 60 * 60 * 1000).toISOString();
+  // Unlimited codes don't really expire -- staff takes them down manually
+  // instead (disabled_at) -- but the column is NOT NULL, so this is just a
+  // date far enough out to never practically matter.
+  const expiresAt = unlimited
+    ? new Date(Date.now() + 100 * 365 * 24 * 60 * 60 * 1000).toISOString()
+    : new Date(Date.now() + EXPIRY_HOURS * 60 * 60 * 1000).toISOString();
 
   await db
-    .prepare(`INSERT INTO discount_codes (code, amount_cents, expires_at) VALUES (?1, ?2, ?3)`)
-    .bind(code, DEFAULT_AMOUNT_CENTS, expiresAt)
+    .prepare(`INSERT INTO discount_codes (code, amount_cents, expires_at, unlimited) VALUES (?1, ?2, ?3, ?4)`)
+    .bind(code, amountCents, expiresAt, unlimited ? 1 : 0)
     .run();
 
   const link = `${new URL(request.url).origin}/apply?discount=${code}`;
@@ -67,8 +79,8 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           lead: { firstName: leadFirstName || "there", email: leadEmail },
           link,
-          amountCents: DEFAULT_AMOUNT_CENTS,
-          expiresAt,
+          amountCents,
+          expiresAt: unlimited ? null : expiresAt,
         }),
       });
       emailed = res.ok;
@@ -79,7 +91,35 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ code, amountCents: DEFAULT_AMOUNT_CENTS, expiresAt, link, emailed });
+  return NextResponse.json({ code, amountCents, expiresAt, unlimited, link, emailed });
+}
+
+// Staff can take a code down (or bring it back) independent of its
+// expiry/redemption state -- mainly for the unlimited/reusable kind, which
+// has no other way to stop working once shared.
+export async function PATCH(request: Request) {
+  if (!(await requireAdmin(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let db;
+  try {
+    db = await getDb();
+  } catch {
+    return NextResponse.json({ error: "Database is not configured yet" }, { status: 503 });
+  }
+
+  const body = await request.json().catch(() => ({}) as Record<string, unknown>);
+  const code = typeof body?.code === "string" ? body.code : "";
+  const disabled = body?.disabled === true;
+  if (!code) return NextResponse.json({ error: "Missing code" }, { status: 400 });
+
+  await db
+    .prepare(`UPDATE discount_codes SET disabled_at = ?1 WHERE code = ?2`)
+    .bind(disabled ? new Date().toISOString() : null, code)
+    .run();
+
+  return NextResponse.json({ ok: true });
 }
 
 export async function GET(request: Request) {
@@ -96,7 +136,7 @@ export async function GET(request: Request) {
 
   const { results } = await db
     .prepare(
-      `SELECT code, amount_cents, created_at, expires_at, redeemed_at, redeemed_by_application_id
+      `SELECT code, amount_cents, created_at, expires_at, redeemed_at, redeemed_by_application_id, unlimited, disabled_at
          FROM discount_codes ORDER BY created_at DESC LIMIT 50`
     )
     .all();

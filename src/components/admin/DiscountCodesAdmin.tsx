@@ -34,6 +34,10 @@ const STYLES = `
 .dca-badge-active { background: rgba(97, 191, 130, 0.16); color: #6fd398; }
 .dca-badge-expired { background: rgba(183, 180, 173, 0.16); color: #b7b4ad; }
 .dca-badge-redeemed { background: rgba(140, 170, 230, 0.16); color: #9ab8ef; }
+.dca-badge-disabled { background: rgba(228, 135, 123, 0.16); color: #e4877b; }
+.dca-row-toggle { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.dca-small-btn { background: transparent; border: 1px solid rgba(244,241,234,0.24); color: #f4f1ea; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; }
+.dca-small-btn:hover { border-color: #c6a466; }
 `;
 
 type DiscountCode = {
@@ -43,11 +47,14 @@ type DiscountCode = {
   expires_at: string;
   redeemed_at: string | null;
   redeemed_by_application_id: string | null;
+  unlimited: number;
+  disabled_at: string | null;
 };
 
-function statusOf(c: DiscountCode): "active" | "expired" | "redeemed" {
+function statusOf(c: DiscountCode): "active" | "expired" | "redeemed" | "disabled" {
+  if (c.disabled_at) return "disabled";
   if (c.redeemed_at) return "redeemed";
-  if (new Date(c.expires_at).getTime() < Date.now()) return "expired";
+  if (!c.unlimited && new Date(c.expires_at).getTime() < Date.now()) return "expired";
   return "active";
 }
 
@@ -62,9 +69,17 @@ export function DiscountCodesAdmin() {
   const [codes, setCodes] = useState<DiscountCode[]>([]);
   const [leadFirstName, setLeadFirstName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
-  const [justCreated, setJustCreated] = useState<{ code: string; link: string; expiresAt: string; emailed: boolean; emailedTo: string } | null>(
-    null
-  );
+  const [amountDollars, setAmountDollars] = useState("500");
+  const [unlimited, setUnlimited] = useState(false);
+  const [togglingCode, setTogglingCode] = useState<string | null>(null);
+  const [justCreated, setJustCreated] = useState<{
+    code: string;
+    link: string;
+    expiresAt: string;
+    unlimited: boolean;
+    emailed: boolean;
+    emailedTo: string;
+  } | null>(null);
 
   async function tryAuth(candidateSecret: string) {
     setError(null);
@@ -101,13 +116,30 @@ export function DiscountCodesAdmin() {
       const res = await fetch("/api/discount-codes", {
         method: "POST",
         headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ leadFirstName, leadEmail }),
+        body: JSON.stringify({ leadFirstName, leadEmail, amountDollars: Number(amountDollars) || undefined, unlimited }),
       });
       if (!res.ok) throw new Error("Could not generate a code");
-      const data: { code: string; amountCents: number; expiresAt: string; link: string; emailed: boolean } = await res.json();
-      setJustCreated({ code: data.code, link: data.link, expiresAt: data.expiresAt, emailed: data.emailed, emailedTo: leadEmail });
+      const data: { code: string; amountCents: number; expiresAt: string; unlimited: boolean; link: string; emailed: boolean } =
+        await res.json();
+      setJustCreated({
+        code: data.code,
+        link: data.link,
+        expiresAt: data.expiresAt,
+        unlimited: data.unlimited,
+        emailed: data.emailed,
+        emailedTo: leadEmail,
+      });
       setCodes((prev) => [
-        { code: data.code, amount_cents: data.amountCents, created_at: new Date().toISOString(), expires_at: data.expiresAt, redeemed_at: null, redeemed_by_application_id: null },
+        {
+          code: data.code,
+          amount_cents: data.amountCents,
+          created_at: new Date().toISOString(),
+          expires_at: data.expiresAt,
+          redeemed_at: null,
+          redeemed_by_application_id: null,
+          unlimited: data.unlimited ? 1 : 0,
+          disabled_at: null,
+        },
         ...prev,
       ]);
       setLeadFirstName("");
@@ -116,6 +148,25 @@ export function DiscountCodesAdmin() {
       setError("Could not generate a code. Please try again.");
     } finally {
       setGenerating(false);
+    }
+  }
+
+  async function toggleDisabled(code: string, disabled: boolean) {
+    setTogglingCode(code);
+    try {
+      const res = await fetch("/api/discount-codes", {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ code, disabled }),
+      });
+      if (!res.ok) throw new Error("Could not update code");
+      setCodes((prev) =>
+        prev.map((c) => (c.code === code ? { ...c, disabled_at: disabled ? new Date().toISOString() : null } : c))
+      );
+    } catch {
+      setError("Could not update that code. Please try again.");
+    } finally {
+      setTogglingCode(null);
     }
   }
 
@@ -155,8 +206,9 @@ export function DiscountCodesAdmin() {
       <div className="dca-card">
         <div className="dca-h1">Discount Codes</div>
         <div className="dca-sub">
-          Generate a one-time $500-off link for a specific lead. Valid for 24 hours from creation, and good for one
-          checkout only.
+          {unlimited
+            ? "Generate a reusable discount link anyone can use, with no expiry -- take it down manually whenever you're done with it."
+            : "Generate a one-time discount link for a specific lead. Valid for 24 hours from creation, and good for one checkout only."}
         </div>
 
         {error && <div className="dca-error">{error}</div>}
@@ -175,9 +227,24 @@ export function DiscountCodesAdmin() {
           value={leadEmail}
           onChange={(e) => setLeadEmail(e.target.value)}
         />
+        <input
+          type="number"
+          min="1"
+          step="1"
+          className="dca-input"
+          placeholder="Discount amount in dollars (default $500)"
+          value={amountDollars}
+          onChange={(e) => setAmountDollars(e.target.value)}
+        />
+        <label className="dca-row-toggle">
+          <input type="checkbox" checked={unlimited} onChange={(e) => setUnlimited(e.target.checked)} />
+          <span style={{ fontSize: 13, color: "#b7b4ad" }}>
+            Unlimited (no expiry, any number of people can use it -- take down manually)
+          </span>
+        </label>
 
         <button type="button" className="dca-btn" onClick={generateCode} disabled={generating}>
-          {generating ? "Generating..." : "Generate $500 Discount Link"}
+          {generating ? "Generating..." : unlimited ? "Generate Unlimited Discount Link" : "Generate Discount Link"}
         </button>
 
         {justCreated && (
@@ -198,8 +265,8 @@ export function DiscountCodesAdmin() {
                 </button>
               </div>
               <div style={{ fontSize: 13, color: "#b7b4ad" }}>
-                Code <strong style={{ color: "#f4f1ea" }}>{justCreated.code}</strong> — expires{" "}
-                {new Date(justCreated.expiresAt).toLocaleString()}
+                Code <strong style={{ color: "#f4f1ea" }}>{justCreated.code}</strong>
+                {justCreated.unlimited ? " — no expiry" : ` — expires ${new Date(justCreated.expiresAt).toLocaleString()}`}
               </div>
               {justCreated.emailedTo && (
                 <div style={{ fontSize: 13, marginTop: 6, color: justCreated.emailed ? "#6fd398" : "#e4877b" }}>
@@ -216,28 +283,47 @@ export function DiscountCodesAdmin() {
           <thead>
             <tr>
               <th>Code</th>
+              <th>Amount</th>
               <th>Created</th>
               <th>Expires</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {codes.map((c) => {
               const status = statusOf(c);
+              const canToggle = status === "active" || status === "disabled";
               return (
                 <tr key={c.code}>
-                  <td>{c.code}</td>
+                  <td>
+                    {c.code}
+                    {c.unlimited ? " ♾️" : ""}
+                  </td>
+                  <td>${(c.amount_cents / 100).toLocaleString()}</td>
                   <td>{new Date(c.created_at).toLocaleString()}</td>
-                  <td>{new Date(c.expires_at).toLocaleString()}</td>
+                  <td>{c.unlimited ? "—" : new Date(c.expires_at).toLocaleString()}</td>
                   <td>
                     <span className={`dca-badge dca-badge-${status}`}>{status}</span>
+                  </td>
+                  <td>
+                    {canToggle && (
+                      <button
+                        type="button"
+                        className="dca-small-btn"
+                        disabled={togglingCode === c.code}
+                        onClick={() => toggleDisabled(c.code, status === "active")}
+                      >
+                        {status === "active" ? "Take down" : "Reactivate"}
+                      </button>
+                    )}
                   </td>
                 </tr>
               );
             })}
             {codes.length === 0 && (
               <tr>
-                <td colSpan={4} style={{ color: "#b7b4ad" }}>
+                <td colSpan={6} style={{ color: "#b7b4ad" }}>
                   No codes generated yet.
                 </td>
               </tr>
