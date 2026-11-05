@@ -119,6 +119,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   try {
     const session = await createCheckoutSession(secretKey, {
       mode: "payment",
+      // Card (plus Apple/Google Pay, which ride on it), Link, Amazon Pay,
+      // and Cash App Pay all settle immediately. US bank account (ACH) and
+      // Klarna are excluded -- both can take days to actually settle or
+      // later unwind, and our webhook treats checkout.session.completed as
+      // final/paid with no handling for a payment that fails afterward.
+      payment_method_types: ["card", "link", "amazon_pay", "cashapp"],
       line_items: [
         {
           price_data: {
