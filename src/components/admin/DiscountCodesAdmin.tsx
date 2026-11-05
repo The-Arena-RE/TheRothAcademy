@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const STORAGE_KEY = "roth_discount_admin_secret";
 
@@ -38,6 +38,9 @@ const STYLES = `
 .dca-row-toggle { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .dca-small-btn { background: transparent; border: 1px solid rgba(244,241,234,0.24); color: #f4f1ea; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; }
 .dca-small-btn:hover { border-color: #c6a466; }
+.dca-code-cell { cursor: pointer; }
+.dca-code-cell:hover { color: #c6a466; }
+.dca-expanded-row td { padding: 14px 10px; }
 `;
 
 type DiscountCode = {
@@ -72,6 +75,7 @@ export function DiscountCodesAdmin() {
   const [amountDollars, setAmountDollars] = useState("500");
   const [unlimited, setUnlimited] = useState(false);
   const [togglingCode, setTogglingCode] = useState<string | null>(null);
+  const [expandedCode, setExpandedCode] = useState<string | null>(null);
   const [justCreated, setJustCreated] = useState<{
     code: string;
     link: string;
@@ -312,39 +316,69 @@ export function DiscountCodesAdmin() {
             {codes.map((c) => {
               const status = statusOf(c);
               const canToggle = status === "active" || status === "disabled";
+              const expanded = expandedCode === c.code;
+              const link =
+                typeof window === "undefined" ? "" : `${window.location.origin}/apply?discount=${c.code}`;
               return (
-                <tr key={c.code}>
-                  <td>
-                    {c.code}
-                    {c.unlimited ? " ♾️" : ""}
-                  </td>
-                  <td>${(c.amount_cents / 100).toLocaleString()}</td>
-                  <td>{new Date(c.created_at).toLocaleString()}</td>
-                  <td>{c.unlimited ? "—" : new Date(c.expires_at).toLocaleString()}</td>
-                  <td>
-                    <span className={`dca-badge dca-badge-${status}`}>{status}</span>
-                  </td>
-                  <td style={{ display: "flex", gap: 6 }}>
-                    {canToggle && (
+                <Fragment key={c.code}>
+                  <tr>
+                    <td className="dca-code-cell" onClick={() => setExpandedCode(expanded ? null : c.code)}>
+                      {expanded ? "▾ " : "▸ "}
+                      {c.code}
+                      {c.unlimited ? " ♾️" : ""}
+                    </td>
+                    <td>${(c.amount_cents / 100).toLocaleString()}</td>
+                    <td>{new Date(c.created_at).toLocaleString()}</td>
+                    <td>{c.unlimited ? "—" : new Date(c.expires_at).toLocaleString()}</td>
+                    <td>
+                      <span className={`dca-badge dca-badge-${status}`}>{status}</span>
+                    </td>
+                    <td style={{ display: "flex", gap: 6 }}>
+                      {canToggle && (
+                        <button
+                          type="button"
+                          className="dca-small-btn"
+                          disabled={togglingCode === c.code}
+                          onClick={() => toggleDisabled(c.code, status === "active")}
+                        >
+                          {status === "active" ? "Take down" : "Reactivate"}
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="dca-small-btn"
                         disabled={togglingCode === c.code}
-                        onClick={() => toggleDisabled(c.code, status === "active")}
+                        onClick={() => deleteCode(c.code)}
                       >
-                        {status === "active" ? "Take down" : "Reactivate"}
+                        Delete
                       </button>
-                    )}
-                    <button
-                      type="button"
-                      className="dca-small-btn"
-                      disabled={togglingCode === c.code}
-                      onClick={() => deleteCode(c.code)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  {expanded && (
+                    <tr className="dca-expanded-row">
+                      <td colSpan={6}>
+                        <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+                          <div style={{ background: "#fff", padding: 10, borderRadius: 8, lineHeight: 0 }}>
+                            <img
+                              src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(link)}`}
+                              alt="QR code for discount link"
+                              width={160}
+                              height={160}
+                            />
+                          </div>
+                          <div style={{ flex: 1, minWidth: 220 }}>
+                            <div className="dca-link-row">
+                              <div className="dca-link-box">{link}</div>
+                              <button type="button" className="dca-copy-btn" onClick={() => copyLink(link)}>
+                                Copy
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               );
             })}
             {codes.length === 0 && (
