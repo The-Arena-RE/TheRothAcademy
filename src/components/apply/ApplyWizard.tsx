@@ -433,7 +433,15 @@ export type ResumeData = {
   discountCents: number;
 };
 
-export function ApplyWizard({ resume, discountCode }: { resume?: ResumeData; discountCode?: string } = {}) {
+export function ApplyWizard({
+  resume,
+  discountCode,
+  discountCodeInvalid,
+}: {
+  resume?: ResumeData;
+  discountCode?: string;
+  discountCodeInvalid?: boolean;
+} = {}) {
   const [step, setStep] = useState<Step>(resume ? "application" : "plan");
   const [plan, setPlan] = useState<PlanId | null>(resume?.plan ?? null);
   const [lead, setLead] = useState<LeadData>({ firstName: resume?.leadFirstName ?? "", lastName: "", email: "", phone: "" });
@@ -605,6 +613,25 @@ export function ApplyWizard({ resume, discountCode }: { resume?: ResumeData; dis
           <Image src="/roth-logo.png" alt="Roth Academy" width={71} height={78} className="h-24 w-auto" priority />
         </Link>
       </div>
+
+      {discountCodeInvalid && (
+        <div
+          style={{
+            maxWidth: 480,
+            margin: "0 auto 20px",
+            padding: "12px 16px",
+            borderRadius: 10,
+            background: "rgba(228, 135, 123, 0.12)",
+            border: "1px solid rgba(228, 135, 123, 0.35)",
+            color: "#c9594a",
+            fontSize: 13,
+            textAlign: "center",
+          }}
+        >
+          This discount link has expired or is no longer valid. You can still continue — the standard price will
+          apply.
+        </div>
+      )}
 
       {step !== "plan" && step !== "help-me-choose" && step !== "application" && (
         <div className="apply-progress-wrap">

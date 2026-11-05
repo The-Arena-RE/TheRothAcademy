@@ -17,6 +17,22 @@ export async function getDiscountAdminSecret() {
   return env.DISCOUNT_ADMIN_SECRET;
 }
 
+// Used only to decide whether to show the customer an "this link has
+// expired" message as soon as they land on /apply?discount=CODE -- the
+// actual pricing/charging logic re-validates independently at application
+// creation and checkout, so this never needs to be the source of truth.
+export async function isDiscountCodeValid(code: string): Promise<boolean> {
+  const db = await getDb();
+  const row = await db
+    .prepare(
+      `SELECT 1 FROM discount_codes
+        WHERE code = ?1 AND disabled_at IS NULL AND (unlimited = 1 OR redeemed_at IS NULL) AND expires_at > datetime('now')`
+    )
+    .bind(code)
+    .first();
+  return Boolean(row);
+}
+
 export type ApplicationRecord = {
   id: string;
   plan: PlanId;
