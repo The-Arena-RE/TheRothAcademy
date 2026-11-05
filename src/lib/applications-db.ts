@@ -17,20 +17,21 @@ export async function getDiscountAdminSecret() {
   return env.DISCOUNT_ADMIN_SECRET;
 }
 
-// Used only to decide whether to show the customer an "this link has
-// expired" message as soon as they land on /apply?discount=CODE -- the
+// Used only to decide what to show the customer as soon as they land on
+// /apply?discount=CODE -- either the "this link has expired" message, or the
+// discount amount so the discounted price can be previewed up front. The
 // actual pricing/charging logic re-validates independently at application
 // creation and checkout, so this never needs to be the source of truth.
-export async function isDiscountCodeValid(code: string): Promise<boolean> {
+export async function getDiscountCodeAmountCents(code: string): Promise<number | null> {
   const db = await getDb();
   const row = await db
     .prepare(
-      `SELECT 1 FROM discount_codes
+      `SELECT amount_cents FROM discount_codes
         WHERE code = ?1 AND disabled_at IS NULL AND (unlimited = 1 OR redeemed_at IS NULL) AND expires_at > datetime('now')`
     )
     .bind(code)
-    .first();
-  return Boolean(row);
+    .first<{ amount_cents: number }>();
+  return row ? row.amount_cents : null;
 }
 
 export type ApplicationRecord = {

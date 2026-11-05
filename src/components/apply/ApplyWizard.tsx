@@ -437,10 +437,12 @@ export function ApplyWizard({
   resume,
   discountCode,
   discountCodeInvalid,
+  discountAmountCents,
 }: {
   resume?: ResumeData;
   discountCode?: string;
   discountCodeInvalid?: boolean;
+  discountAmountCents?: number;
 } = {}) {
   const [step, setStep] = useState<Step>(resume ? "application" : "plan");
   const [plan, setPlan] = useState<PlanId | null>(resume?.plan ?? null);
@@ -633,6 +635,25 @@ export function ApplyWizard({
         </div>
       )}
 
+      {!!discountAmountCents && (
+        <div
+          style={{
+            maxWidth: 480,
+            margin: "0 auto 20px",
+            padding: "12px 16px",
+            borderRadius: 10,
+            background: "rgba(198, 164, 102, 0.14)",
+            border: "1px solid rgba(198, 164, 102, 0.4)",
+            color: "#c6a466",
+            fontSize: 13,
+            textAlign: "center",
+            fontWeight: 600,
+          }}
+        >
+          Discount code applied — ${(discountAmountCents / 100).toLocaleString()} off your setup fee
+        </div>
+      )}
+
       {step !== "plan" && step !== "help-me-choose" && step !== "application" && (
         <div className="apply-progress-wrap">
           <div className="apply-progress-label">
@@ -649,7 +670,13 @@ export function ApplyWizard({
 
       <div className="apply-shell">
         <div className="apply-card">
-          {step === "plan" && <PlanSelectionView onChoose={choosePlan} onHelpMeChoose={() => setStep("help-me-choose")} />}
+          {step === "plan" && (
+            <PlanSelectionView
+              onChoose={choosePlan}
+              onHelpMeChoose={() => setStep("help-me-choose")}
+              discountAmountCents={discountAmountCents}
+            />
+          )}
 
           {step === "help-me-choose" && (
             <HelpMeChooseView
@@ -714,7 +741,15 @@ export function ApplyWizard({
   );
 }
 
-function PlanSelectionView({ onChoose, onHelpMeChoose }: { onChoose: (id: PlanId) => void; onHelpMeChoose: () => void }) {
+function PlanSelectionView({
+  onChoose,
+  onHelpMeChoose,
+  discountAmountCents,
+}: {
+  onChoose: (id: PlanId) => void;
+  onHelpMeChoose: () => void;
+  discountAmountCents?: number;
+}) {
   return (
     <>
       <div className="apply-eyebrow">Get Started</div>
@@ -727,11 +762,23 @@ function PlanSelectionView({ onChoose, onHelpMeChoose }: { onChoose: (id: PlanId
       <div className="apply-plan-grid">
         {(Object.keys(PLANS) as PlanId[]).map((id) => {
           const p = PLANS[id];
+          const discountedPrice = discountAmountCents
+            ? Math.max(0, p.price - discountAmountCents / 100)
+            : null;
           return (
             <div className="apply-plan-card" key={id}>
               <div className="apply-plan-name">{p.name}</div>
               <div className="apply-plan-blurb">{p.blurb}</div>
-              <div className="apply-plan-price">${p.price.toLocaleString()}</div>
+              {discountedPrice !== null ? (
+                <div className="apply-plan-price">
+                  <span style={{ textDecoration: "line-through", color: "#b7b4ad", fontSize: "0.65em", marginRight: 8 }}>
+                    ${p.price.toLocaleString()}
+                  </span>
+                  ${discountedPrice.toLocaleString()}
+                </div>
+              ) : (
+                <div className="apply-plan-price">${p.price.toLocaleString()}</div>
+              )}
               <button type="button" className="apply-plan-btn" onClick={() => onChoose(id)}>
                 Get Started
               </button>
