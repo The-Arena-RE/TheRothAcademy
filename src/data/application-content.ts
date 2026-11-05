@@ -198,13 +198,7 @@ const SETUP_DETAILS: Record<PlanId, ApplicationSection> = {
   "401k": {
     id: "setup_details",
     title: "Plan Setup Details",
-    fields: [
-      { id: "intended_plan_name", label: "Intended Plan Name", type: "text", required: true },
-      { id: "desired_adoption_year", label: "Desired Adoption Year", type: "text", required: true },
-      { id: "roth_election", label: "Include a Roth contribution election?", type: "radio", options: YES_NO },
-      { id: "traditional_election", label: "Include a traditional contribution election?", type: "radio", options: YES_NO },
-      { id: "loan_election", label: "Include the participant-loan election?", type: "radio", options: YES_NO },
-    ],
+    fields: [{ id: "intended_plan_name", label: "Intended Plan Name", type: "text", required: true }],
   },
   ira: {
     id: "setup_details",
