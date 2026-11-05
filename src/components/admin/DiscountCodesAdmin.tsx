@@ -170,6 +170,24 @@ export function DiscountCodesAdmin() {
     }
   }
 
+  async function deleteCode(code: string) {
+    if (!window.confirm(`Permanently delete code ${code}? This can't be undone.`)) return;
+    setTogglingCode(code);
+    try {
+      const res = await fetch("/api/discount-codes", {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      if (!res.ok) throw new Error("Could not delete code");
+      setCodes((prev) => prev.filter((c) => c.code !== code));
+    } catch {
+      setError("Could not delete that code. Please try again.");
+    } finally {
+      setTogglingCode(null);
+    }
+  }
+
   function copyLink(link: string) {
     navigator.clipboard?.writeText(link).catch(() => {});
   }
@@ -306,7 +324,7 @@ export function DiscountCodesAdmin() {
                   <td>
                     <span className={`dca-badge dca-badge-${status}`}>{status}</span>
                   </td>
-                  <td>
+                  <td style={{ display: "flex", gap: 6 }}>
                     {canToggle && (
                       <button
                         type="button"
@@ -317,6 +335,14 @@ export function DiscountCodesAdmin() {
                         {status === "active" ? "Take down" : "Reactivate"}
                       </button>
                     )}
+                    <button
+                      type="button"
+                      className="dca-small-btn"
+                      disabled={togglingCode === c.code}
+                      onClick={() => deleteCode(c.code)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );

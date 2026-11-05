@@ -122,6 +122,31 @@ export async function PATCH(request: Request) {
   return NextResponse.json({ ok: true });
 }
 
+// Permanently removes a code -- distinct from PATCH's disable, which just
+// stops a code from working but keeps it (and its redemption history)
+// around. This is for clearing out old test codes, not something to use on
+// a code real customers might still reference.
+export async function DELETE(request: Request) {
+  if (!(await requireAdmin(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let db;
+  try {
+    db = await getDb();
+  } catch {
+    return NextResponse.json({ error: "Database is not configured yet" }, { status: 503 });
+  }
+
+  const body = await request.json().catch(() => ({}) as Record<string, unknown>);
+  const code = typeof body?.code === "string" ? body.code : "";
+  if (!code) return NextResponse.json({ error: "Missing code" }, { status: 400 });
+
+  await db.prepare(`DELETE FROM discount_codes WHERE code = ?1`).bind(code).run();
+
+  return NextResponse.json({ ok: true });
+}
+
 export async function GET(request: Request) {
   if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
