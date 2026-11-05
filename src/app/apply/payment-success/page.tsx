@@ -110,7 +110,20 @@ function PaymentSuccessContent() {
       } catch {
         // Fall through to the "we'll be in touch" fallback below.
       }
-      if (!cancelled) setStatus("signing_unavailable");
+      if (!cancelled) {
+        setStatus("signing_unavailable");
+        // Best-effort -- send-for-signature's own safety-net email only
+        // fires on its success path, so if we got here (its call to n8n
+        // failed or timed out on our end, even if DocuSign itself actually
+        // went through), the customer otherwise gets no email at all. This
+        // guarantees they have a working link back in, regardless of why
+        // the automatic redirect didn't happen.
+        fetch(`/api/applications/${id}/email-signing-fallback`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        }).catch(() => {});
+      }
     }
 
     async function poll() {
@@ -197,8 +210,8 @@ function PaymentSuccessContent() {
             <div className="ps-eyebrow">Payment Confirmed</div>
             <h2 className="ps-h2">You&apos;re All Set</h2>
             <p className="ps-sub">
-              Your payment has been received. We hit a snag opening your order form automatically, but don&apos;t
-              worry -- we&apos;ll reach out shortly to get it signed. If you&apos;d rather not wait, call us at{" "}
+              Your payment has been received. We hit a snag opening your order form automatically, but we&apos;ve
+              emailed you a link to finish signing -- just check your inbox. If you don&apos;t see it, call us at{" "}
               {siteConfig.phone}.
             </p>
             <Link href="/" className="ps-btn-primary">
