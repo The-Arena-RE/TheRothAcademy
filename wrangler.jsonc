@@ -15,7 +15,7 @@
     {
       "binding": "DB",
       "database_name": "roth-academy-applications",
-      "database_id": "7b4f86ad-e148-4271-9a7e-99344bfa46b6",
+      "database_id": "83d4325d-1448-4764-b4ed-0f065223263b",
       "migrations_dir": "migrations"
     }
   ],
