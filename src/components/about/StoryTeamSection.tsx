@@ -7,11 +7,13 @@ export function StoryTeamSection({
   heading,
   paragraphs,
   roles,
+  sourceLink,
 }: {
   kicker: string;
   heading: string[];
   paragraphs: string[];
   roles: { tag: string; name: string; description: string }[];
+  sourceLink?: { label: string; href: string };
 }) {
   return (
     <section className="border-b border-r-line bg-r-stripe-2 py-16 md:py-24">
@@ -56,6 +58,17 @@ export function StoryTeamSection({
             </li>
           ))}
         </ul>
+
+        {sourceLink && (
+          <a
+            href={sourceLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-1 text-xs uppercase tracking-[0.1em] text-r-muted/70 transition-colors hover:text-r-gold"
+          >
+            {sourceLink.label}
+          </a>
+        )}
       </div>
     </section>
   );
