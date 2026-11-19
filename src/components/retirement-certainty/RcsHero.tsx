@@ -241,7 +241,7 @@ export function RcsHero() {
 
           <div className="hero-photo-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://iraideas.com/wp-content/uploads/Attorney.png" alt="Self-Directed Retirement Plan Specialist" />
+            <img src="/story/tim-berry.webp" alt="Self-Directed Retirement Plan Specialist" />
             <div className="hero-photo-overlay">
               <div className="hero-photo-name">TIM BERRY</div>
               <div className="hero-photo-title">Self-Directed Retirement Plan Specialist</div>
