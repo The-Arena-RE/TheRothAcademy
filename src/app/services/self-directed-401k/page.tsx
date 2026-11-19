@@ -2,33 +2,37 @@ import type { Metadata } from "next";
 import { ServiceHero } from "@/components/services/ServiceHero";
 import { ServiceOverview } from "@/components/services/ServiceOverview";
 import { ServiceProcess } from "@/components/services/ServiceProcess";
-import { ServiceAssetGrid } from "@/components/services/ServiceAssetGrid";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { ServiceCrossLink } from "@/components/services/ServiceCrossLink";
 import { ClosingStatement } from "@/components/home/ClosingStatement";
+import { DeepDiveSection } from "@/components/services/deepdive/DeepDiveSection";
+import { DeepDiveGallery } from "@/components/services/deepdive/DeepDiveGallery";
+import { DeepDiveComparisonTable } from "@/components/services/deepdive/DeepDiveComparisonTable";
+import { DeepDiveStoryList } from "@/components/services/deepdive/DeepDiveStoryList";
+import { DeepDiveReferenceLibrary } from "@/components/services/deepdive/DeepDiveReferenceLibrary";
 import { planDestinations } from "@/data/site-config";
-import { assetClasses } from "@/data/home-content";
 import {
   service401kHero,
-  service401kFoundation,
-  service401kOverview,
   service401kPricing,
+  service401kOverview,
   service401kProcess,
-  service401kFaq,
   service401kCrossLink,
-  service401kAssetHrefOverrides,
+  flagshipService401kRevelation,
+  flagshipService401kStories,
+  flagshipService401kGallery,
+  flagshipService401kComparison,
+  flagshipService401kAdvantages,
+  flagshipService401kAudience,
+  flagshipService401kCredibility,
+  flagshipService401kFaq,
+  flagshipService401kReferences,
 } from "@/data/self-directed-401k-content";
 
-const service401kAssetItems = assetClasses.map((item) => ({
-  ...item,
-  href: service401kAssetHrefOverrides[item.label] ?? item.href,
-}));
-
 export const metadata: Metadata = {
-  title: "Self-Directed 401(k)",
+  title: "Self-Directed 401(k) for Business Owners | Real Estate & More",
   description:
-    "A self-directed 401(k) built for business owners: higher contribution limits, checkbook control, and room for the assets you understand.",
+    "Discover how a self-directed 401(k) may let eligible business owners explore real estate, private loans and more. Learn the possibilities and start your plan.",
 };
 
 export default function SelfDirected401kPage() {
@@ -41,10 +45,33 @@ export default function SelfDirected401kPage() {
         description={service401kHero.description}
         whoItsFor={service401kHero.whoItsFor}
         contactTopic="Self-Directed 401(k)"
-        primaryCta={{ label: "Open My 401(k)", href: planDestinations.open401k }}
+        primaryCta={{ label: "Start My Self-Directed 401(k)", href: planDestinations.open401k }}
         secondaryCta={{ label: "Ask a Question", href: planDestinations.getHelp }}
         imageSrc="/services/401k/hero.webp"
         summary={service401kHero.summary}
+      />
+
+      <DeepDiveSection {...flagshipService401kRevelation} />
+
+      <DeepDiveStoryList {...flagshipService401kStories} />
+
+      <DeepDiveGallery {...flagshipService401kGallery} columns={3} />
+
+      <DeepDiveComparisonTable {...flagshipService401kComparison} />
+
+      <DeepDiveGallery {...flagshipService401kAdvantages} columns={3} />
+
+      <DeepDiveGallery {...flagshipService401kAudience} columns={2} />
+
+      <DeepDiveGallery {...flagshipService401kCredibility} columns={3} />
+
+      <ServicePricing
+        eyebrow={service401kPricing.eyebrow}
+        heading={service401kPricing.heading}
+        intro={service401kPricing.intro}
+        included={service401kPricing.included}
+        price={service401kPricing.price}
+        note={service401kPricing.note}
       />
 
       <ServiceOverview
@@ -57,31 +84,6 @@ export default function SelfDirected401kPage() {
       />
 
       <ServiceProcess
-        eyebrow={service401kFoundation.eyebrow}
-        heading={service401kFoundation.heading}
-        steps={service401kFoundation.steps}
-        columns={3}
-      />
-
-      <ServiceAssetGrid
-        eyebrow="Inside The Plan"
-        heading={["What Your Plan", "Can Hold."]}
-        intro="Use your self-directed 401(k) to invest in opportunities you already understand."
-        tagline={["One Account.", "Many Markets."]}
-        footnote="Investment availability depends on the account, provider, and applicable rules. The academy does not recommend or custody investments."
-        items={service401kAssetItems}
-      />
-
-      <ServicePricing
-        eyebrow={service401kPricing.eyebrow}
-        heading={service401kPricing.heading}
-        intro={service401kPricing.intro}
-        included={service401kPricing.included}
-        price={service401kPricing.price}
-        note={service401kPricing.note}
-      />
-
-      <ServiceProcess
         eyebrow={service401kProcess.eyebrow}
         heading={service401kProcess.heading}
         intro={service401kProcess.intro}
@@ -89,11 +91,13 @@ export default function SelfDirected401kPage() {
       />
 
       <ServiceFaq
-        eyebrow={service401kFaq.eyebrow}
-        heading={service401kFaq.heading}
-        items={service401kFaq.items}
-        sourceLink={service401kFaq.sourceLink}
+        eyebrow={flagshipService401kFaq.eyebrow}
+        heading={flagshipService401kFaq.heading}
+        items={flagshipService401kFaq.items}
+        sourceLink={flagshipService401kFaq.sourceLink}
       />
+
+      <DeepDiveReferenceLibrary references={flagshipService401kReferences} />
 
       <ServiceCrossLink
         label={service401kCrossLink.label}
@@ -101,7 +105,12 @@ export default function SelfDirected401kPage() {
         href={service401kCrossLink.href}
       />
 
-      <ClosingStatement primaryLabel="Open My 401(k)" primaryHref={planDestinations.open401k} />
+      <ClosingStatement
+        heading={<>Your Retirement Has More Possibilities <span className="text-r-gold">Than You May Realize.</span></>}
+        description="You've spent years learning how to recognize opportunity. Now explore whether a self-directed 401(k) can bring more of those investment possibilities into your retirement strategy."
+        primaryLabel="Start My Self-Directed 401(k)"
+        primaryHref={planDestinations.open401k}
+      />
     </>
   );
 }
