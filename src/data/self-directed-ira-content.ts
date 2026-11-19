@@ -1,4 +1,6 @@
 export const serviceIraAssetHrefOverrides: Record<string, string> = {
+  "Real Estate": "/services/self-directed-ira/real-estate",
+  "Private Lending": "/services/self-directed-ira/private-lending",
   "Precious Metals": "/services/self-directed-ira/precious-metals",
   "Digital Assets": "/services/self-directed-ira/cryptocurrency",
 };
