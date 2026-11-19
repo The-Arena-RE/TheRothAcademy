@@ -6,7 +6,7 @@ import { planDestinations } from "@/data/site-config";
 
 export function PlansComparison() {
   return (
-    <section className="border-b border-r-line bg-r-bg py-16 md:py-24">
+    <section id="comparison" className="scroll-mt-24 border-b border-r-line bg-r-bg py-16 md:py-24">
       <div className="container-brand">
         <Eyebrow>{plansComparison.eyebrow}</Eyebrow>
         <h2 className="mt-4 max-w-2xl text-4xl md:text-6xl">
@@ -79,7 +79,7 @@ export function PlansComparison() {
         <div className="mt-10 grid gap-4 border-t border-r-line pt-8 sm:grid-cols-2">
           {plansComparison.columnCtas.map((cta) => (
             <Link
-              key={cta.href}
+              key={cta.label}
               href={cta.href}
               className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-brand-control)] bg-r-gold px-6 py-3 text-sm font-semibold uppercase tracking-wide text-r-bg transition-colors hover:bg-r-gold-light"
             >
@@ -96,6 +96,29 @@ export function PlansComparison() {
           Help Me Choose
           <ArrowUpRight size={16} aria-hidden />
         </Link>
+
+        {plansComparison.note && (
+          <p className="mt-10 max-w-2xl border-l-2 border-r-gold pl-5 text-lg text-r-white md:text-xl">
+            {plansComparison.note}
+          </p>
+        )}
+
+        {plansComparison.references && plansComparison.references.length > 0 && (
+          <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
+            {plansComparison.references.map((reference) => (
+              <li key={reference.href}>
+                <a
+                  href={reference.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-r-muted/70 underline decoration-r-line underline-offset-4 transition-colors hover:text-r-gold"
+                >
+                  {reference.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );
