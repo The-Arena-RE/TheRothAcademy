@@ -6,31 +6,31 @@ import { pathways } from "@/data/home-content";
 
 export function PathwaysSection() {
   return (
-    <section className="border-b border-r-line bg-r-bg py-20 md:py-24">
+    <section id="pathways" className="border-b border-r-line bg-r-bg py-20 md:py-28">
       <div className="container-brand">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Eyebrow>Your Pathway</Eyebrow>
-            <h2 className="mt-4 text-4xl md:text-5xl">Where Do You Start?</h2>
+            <h2 className="mt-4 text-4xl md:text-6xl">Where Do You Start?</h2>
           </div>
           <p className="max-w-sm text-sm text-r-muted font-body normal-case">
-            Two ways to put your retirement goals in motion.
+            Two clear starting points. Both lead to the same standard of care.
           </p>
         </div>
 
-        <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {pathways.map((item) => {
             return (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="group relative flex aspect-[3/4] h-full flex-col justify-between overflow-hidden rounded-[var(--radius-brand-card)] border border-r-line p-6 transition-colors hover:border-r-gold"
+                  className="group relative flex h-full min-h-[460px] flex-col justify-between overflow-hidden rounded-[var(--radius-brand-card)] border border-r-line p-7 transition-colors hover:border-r-gold md:min-h-[540px] md:p-8"
                 >
                   <Image
                     src={item.image}
                     alt=""
                     fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 45vw, 78vw"
+                    sizes="(min-width: 1024px) 40vw, (min-width: 768px) 45vw, 90vw"
                     className="absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div
@@ -38,7 +38,7 @@ export function PathwaysSection() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(0deg, rgba(9,10,11,0.92) 0%, rgba(9,10,11,0.55) 45%, rgba(9,10,11,0.15) 75%)",
+                        "linear-gradient(0deg, rgba(9,10,11,0.97) 0%, rgba(9,10,11,0.92) 48%, rgba(9,10,11,0.55) 72%, rgba(9,10,11,0.15) 92%)",
                     }}
                   />
 
@@ -50,8 +50,17 @@ export function PathwaysSection() {
                   </div>
 
                   <div className="relative">
-                    <h3 className="text-2xl leading-tight text-r-white">{item.title}</h3>
-                    <p className="mt-2 text-sm text-r-muted font-body normal-case">{item.description}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-r-gold">
+                      {item.eyebrow}
+                    </p>
+                    <h3 className="mt-3 text-2xl leading-tight text-r-white md:text-3xl">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-r-muted font-body normal-case">
+                      {item.description}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-2 border-t border-r-line/60 pt-4 text-sm font-semibold uppercase tracking-wide text-r-gold">
+                      {item.secondaryLabel}
+                      <ArrowUpRight size={15} aria-hidden />
+                    </span>
                   </div>
                 </Link>
               </li>

@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { ArrowUpRight, Landmark, Layers, BookOpen, Compass } from "lucide-react";
-import { heroCapabilities } from "@/data/home-content";
-import { planDestinations } from "@/data/site-config";
+import { heroCapabilities, heroContent } from "@/data/home-content";
 
 const icons = { landmark: Landmark, layers: Layers, "book-open": BookOpen, compass: Compass };
 
@@ -53,44 +51,47 @@ export function HeroSection() {
             style={{ fontSize: 11, letterSpacing: "0.14em" }}
           >
             <span className="h-px w-8 bg-r-gold" aria-hidden />
-            Self-Directed IRAs &amp; 401(k)s
+            {heroContent.eyebrow}
           </p>
 
           <h1
-            className="max-w-5xl text-r-white"
+            className="max-w-4xl text-r-white"
             style={{
               marginTop: 35,
-              fontSize: "clamp(76px, 15.5vw, 220px)",
+              fontSize: "clamp(44px, 8.5vw, 108px)",
               fontWeight: 500,
-              lineHeight: 0.9,
-              letterSpacing: "-0.025em",
+              lineHeight: 0.98,
+              letterSpacing: "-0.02em",
             }}
           >
-            Own Your
-            <br />
-            <em className="not-italic text-r-gold">
-              Next Move.
-            </em>
+            <span className="block">{heroContent.title[0]}</span>
+            <span className="block text-r-muted/50 line-through decoration-r-gold/30">
+              {heroContent.title[1]}
+            </span>
+            <em className="block not-italic text-r-gold">{heroContent.title[2]}</em>
           </h1>
 
-          <p className="mt-6 max-w-lg text-base text-r-muted font-body normal-case">
-            Put your retirement money to work in opportunities you understand. Explore self-directed
-            IRAs and 401(k)s with a team to help you get started.
+          <p className="mt-6 max-w-xl text-base text-r-muted font-body normal-case">
+            {heroContent.description}
+          </p>
+
+          <p className="mt-5 max-w-xl border-l-2 border-r-gold pl-4 text-lg text-r-white">
+            {heroContent.featured}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href={planDestinations.openPlan}
+            <a
+              href={heroContent.primaryHref}
               className="inline-flex items-center gap-2 rounded-[var(--radius-brand-control)] bg-r-gold px-6 py-3 text-sm font-semibold uppercase tracking-wide text-r-bg transition-colors hover:bg-r-gold-light"
             >
-              Open a Plan
+              {heroContent.primaryLabel}
               <ArrowUpRight size={18} aria-hidden />
-            </Link>
+            </a>
             <a
-              href="#investments"
+              href={heroContent.secondaryHref}
               className="inline-flex items-center gap-2 rounded-[var(--radius-brand-control)] border border-r-line/60 bg-r-bg/30 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-r-white backdrop-blur-sm transition-colors hover:border-r-gold hover:text-r-gold"
             >
-              See What&apos;s Possible
+              {heroContent.secondaryLabel}
             </a>
           </div>
         </div>
