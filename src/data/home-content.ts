@@ -1,3 +1,15 @@
+export const heroContent = {
+  eyebrow: "The Retirement Conversation Worth Having",
+  title: ["Your Retirement.", "Their Rules.", "Until Now."],
+  description:
+    "For years, millions of Americans have invested their retirement savings through menus of investments selected by financial institutions. But what if your retirement account could own real estate? Make qualifying private loans? Invest in certain privately held businesses? What if the opportunities you understand best aren't even on the menu you've been given?",
+  featured: "You may have more choices than you realize.",
+  primaryLabel: "Discover What's Possible",
+  primaryHref: "#investments",
+  secondaryLabel: "Find My Retirement Plan",
+  secondaryHref: "#pathways",
+};
+
 export const heroCapabilities = [
   { icon: "landmark", label: "Self-directed plans" },
   { icon: "layers", label: "Advanced structures" },
@@ -5,22 +17,213 @@ export const heroCapabilities = [
   { icon: "compass", label: "A team behind the work" },
 ] as const;
 
+export const controversyContent = {
+  eyebrow: "The Question Worth Asking",
+  heading: ["Before You Ask Someone About Self-Direction,", "Ask How They Get Paid."],
+  goldLine: 1,
+  paragraphs: [
+    "Financial professionals are compensated in different ways. Some earn commissions. Others collect asset-based management fees, advisory fees, or compensation associated with specific financial products. Many provide valuable services. Some are excellent at what they do.",
+    "But there is a question every retirement investor deserves to ask: could the person advising me have a financial incentive to keep my money in the products and services their firm provides?",
+    "The financial industry has structures, incentives, limitations, and conflicts that investors should understand. A self-directed retirement plan introduces a different possibility. Instead of having your investment universe defined solely by the offerings of a particular institution, an appropriately structured retirement account may permit investments in a much wider range of assets.",
+    "Real estate. Private loans. Certain privately held businesses. And other qualifying opportunities. Not without rules. Not without risks. And certainly not without responsibility. But potentially with a level of choice you never knew existed.",
+  ],
+  featured:
+    "The question isn't whether your financial adviser is a good person. The question is whether the investment choices you've been offered are all the choices available to you.",
+  note: "Source: U.S. Securities and Exchange Commission, Standards of Conduct and Conflicts of Interest.",
+};
+
+export const qualificationContent = {
+  eyebrow: "An Honest Distinction",
+  heading: ["Self-Direction Isn't For Everyone.", "That's Exactly The Point."],
+  goldLine: 1,
+  paragraphs: [
+    "If you enjoy meeting with your financial adviser, prefer having someone select and monitor investments for you, and are comfortable paying for those services, a conventional arrangement may be appropriate. There is nothing wrong with that. Some people value delegation. Some value the guidance of a professional. Some simply do not want responsibility for individual investment decisions. We respect that choice.",
+    "But there is another kind of investor. The entrepreneur who understands real estate. The business owner who knows how to evaluate private opportunities. The investor who has spent years developing expertise in a particular market. The person who doesn't want the limits of a standard investment menu to define their retirement strategy. For that person, self-direction may change the conversation entirely.",
+  ],
+  featured:
+    "If you want someone else to make your investment decisions, self-direction may not be for you. If you want greater authority over those decisions, you deserve to know what's possible.",
+  note: "Roth Academy does not believe every prospective customer should establish a self-directed plan. Eligibility, the proposed structure, and the responsibilities involved matter. We are willing to decline arrangements that are inappropriate or cannot be supported responsibly. That is not a marketing disadvantage. It is the standard.",
+};
+
+export const investmentShowcase = {
+  eyebrow: "The Dream",
+  heading: ["Imagine What Your", "Retirement Could Own."],
+  intro:
+    "A self-directed retirement plan is still a retirement plan. It operates under applicable retirement and tax laws. But depending on the account structure and provider, it may hold investments far beyond the conventional brokerage menu. The interesting question becomes: what opportunities do you understand that your current retirement account doesn't allow you to pursue?",
+  items: [
+    {
+      number: "01",
+      label: "Real Estate",
+      tagline: "Your retirement plan could own the property.",
+      description:
+        "A qualifying retirement account purchases investment property. Rental income belongs to the account, and property-related expenses are paid by the account. The investment is held for retirement purposes, subject to the applicable rules.",
+      cta: "Explore Real Estate Investing",
+      href: "/goals#real-estate",
+      image: "/investments/real-estate.jpg",
+    },
+    {
+      number: "02",
+      label: "Private Lending",
+      tagline: "Your retirement plan could be the lender.",
+      description:
+        "An appropriately structured retirement plan may make qualifying private loans and receive interest payments into the plan, secured by real estate or other eligible collateral.",
+      cta: "Explore Private Lending",
+      href: "/goals#private-lending",
+      image: "/investments/private-lending.jpg",
+    },
+    {
+      number: "03",
+      label: "Private Business Investments",
+      tagline: "Some of the most interesting companies aren't on a stock exchange.",
+      description:
+        "Certain privately held business interests may be eligible investments, subject to prohibited-transaction rules, tax considerations, and other restrictions.",
+      cta: "Explore Private Investments",
+      href: "/goals#private-business",
+    },
+    {
+      number: "04",
+      label: "Precious Metals",
+      tagline: "Another form of retirement diversification.",
+      description:
+        "Certain qualifying metals may be held through permitted custodial arrangements. Personal possession of IRA-owned bullion is not permitted.",
+      cta: "Explore Precious Metals",
+      href: "/goals#precious-metals",
+      image: "/investments/precious-metals.jpg",
+    },
+    {
+      number: "05",
+      label: "Digital Assets",
+      tagline: "Explore a new investment frontier, with an understanding of the risks.",
+      description:
+        "Some self-directed arrangements permit certain digital assets, depending on the provider, custody arrangement, and applicable requirements.",
+      cta: "Explore Digital Assets",
+      href: "/goals#digital-assets",
+      image: "/investments/digital-assets.jpg",
+    },
+    {
+      number: "06",
+      label: "Traditional Investments",
+      tagline: "More choices doesn't mean abandoning everything familiar.",
+      description:
+        "Stocks, bonds, and traditional securities may still be part of a self-directed investment strategy, alongside the alternatives you've discovered here.",
+      cta: "Explore Investment Flexibility",
+      href: "/goals#stocks-bonds",
+      image: "/investments/stocks-bonds.jpg",
+    },
+  ],
+  footnote:
+    "Investment availability depends on the account, provider, and applicable rules. The academy does not recommend or custody investments. Any transaction examples are illustrative, not predictions of investment returns.",
+};
+
 export const pathways = [
   {
     number: "01",
-    title: "Self-Directed 401(k)",
-    description: "For business owners building a plan around their own structure.",
+    eyebrow: "For Qualifying Business Owners",
+    title: "You Built Your Business. Now Build Your Retirement Plan.",
+    description:
+      "If you own a business or have qualifying self-employment income, a self-directed 401(k) may give you access to investment flexibility and valuable plan features: potentially higher contribution capacity than an IRA, traditional and Roth contribution provisions, and participant loans when permitted by the plan and law.",
+    primaryLabel: "Start My Self-Directed 401(k)",
+    secondaryLabel: "Discover the Self-Directed 401(k)",
     href: "/services/self-directed-401k",
     image: "/pathways/401k.webp",
   },
   {
     number: "02",
-    title: "Self-Directed IRA",
-    description: "For individual investors ready to move beyond a conventional menu.",
+    eyebrow: "For Individual Investors",
+    title: "You Don't Need to Own a Business to Think Bigger.",
+    description:
+      "A self-directed IRA makes broader retirement investing accessible to many individuals, including people who do not own a business. You may be able to invest through qualifying real estate, private lending, certain alternative assets, and other opportunities permitted by the account and custodian.",
+    primaryLabel: "Start My Self-Directed IRA",
+    secondaryLabel: "Discover the Self-Directed IRA",
     href: "/services/self-directed-ira",
     image: "/pathways/ira.webp",
   },
 ];
+
+export const whyRothAcademyContent = {
+  eyebrow: "Come Closer To The Source",
+  heading: ["Experience Cannot Be", "Manufactured Overnight."],
+  subheading:
+    "There is a difference between learning the terminology of self-directed retirement plans and spending decades working through their difficult legal questions.",
+  paragraphs: [
+    "Tim Berry has worked with IRA and 401(k) matters since 1997. His professional experience includes self-directed retirement arrangements, prohibited-transaction issues, rollover problems, and complex retirement-plan questions. That experience is part of the foundation behind the approach we're building at Roth Academy.",
+    "We believe that real expertise is demonstrated through sound judgment, accurate information, and the willingness to recognize when an arrangement should not move forward. Not by selling every customer the same solution. Not by treating every investment idea as permissible. And not by confusing confidence with competence.",
+  ],
+  featured: "Our purpose is to make specialized retirement-plan knowledge more understandable and accessible, without pretending the law is optional.",
+  signature: ["Decades Of Experience.", "A Standard Built For Generations."],
+  portrait: {
+    image: "/story/tim-berry.webp",
+    name: "Tim Berry",
+    title: "Self-Directed Retirement Plan Specialist",
+    bio: "Working with IRA and 401(k) matters since 1997, including self-directed retirement arrangements, prohibited-transaction issues, and complex rollover questions.",
+    href: "/about",
+    linkLabel: "Read the Roth Academy story",
+  },
+  cards: [
+    {
+      title: "Experience That Matters",
+      description: "Tim Berry's documented work with retirement-plan matters dating to 1997.",
+    },
+    {
+      title: "Education Without The Guesswork",
+      description: "Substantial free educational content so you can understand your options before choosing services.",
+    },
+    {
+      title: "Standards Before Sales",
+      description: "We review circumstances and eligibility, and decline engagements that aren't appropriate.",
+    },
+    {
+      title: "A Clearer Client Experience",
+      description: "Accurate plan setup coordination, clear responsibilities, and support after setup.",
+    },
+  ],
+};
+
+export const standardContent = {
+  eyebrow: "The Roth Academy Standard",
+  heading: ["We Would Rather Tell You No", "Than Sell You The Wrong Plan."],
+  paragraphs: [
+    "Retirement investing isn't a game. An investment that sounds attractive is not automatically permissible inside an IRA or 401(k). An investment structure that works for one individual may be inappropriate for another. And an impressive sales pitch will not protect someone from a prohibited transaction.",
+    "That's why we believe the right starting point is more important than making the fastest sale. We believe in meaningful education, clear responsibilities, accurate representations, and building relationships that can last.",
+  ],
+  featured: "A retirement plan is a long-term commitment. We intend to treat it like one.",
+};
+
+export const objectionBreakerContent = {
+  eyebrow: "Worth Understanding",
+  heading: ["More Freedom.", "The Same Responsibility."],
+  paragraphs: [
+    "Self-direction is not a loophole. It does not eliminate the laws governing retirement accounts. It does not make every investment appropriate, and it does not guarantee returns.",
+    "Certain transactions with yourself, relatives, or other disqualified persons can create serious tax consequences. IRA-held property is not personal-use property. Some investments may be difficult to value or sell, and some may involve substantial losses.",
+  ],
+  featured: "Greater control is valuable when it is paired with sound judgment.",
+  ctaLabel: "Understand the Rules",
+  ctaHref: "/learn",
+  references: [
+    { label: "IRS: Retirement Plan Investments FAQs", href: "https://www.irs.gov/retirement-plans/retirement-plan-investments-faqs" },
+    { label: "IRS: Publication 590-B", href: "https://www.irs.gov/publications/p590b" },
+    { label: "Investor.gov: Self-Directed IRAs and the Risk of Fraud", href: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/investor-14" },
+  ],
+};
+
+export const pathwayTableContent = {
+  eyebrow: "Your Starting Point",
+  heading: ["Wherever You Are,", "There's A Place To Begin."],
+  rows: [
+    { visitor: "I own a business and want a retirement plan.", destination: "Self-Directed 401(k)", href: "/services/self-directed-401k" },
+    { visitor: "I want to invest independently without owning a business.", destination: "Self-Directed IRA", href: "/services/self-directed-ira" },
+    { visitor: "I don't know which plan fits me.", destination: "Compare Plans", href: "/plans" },
+    { visitor: "I want to learn more before deciding.", destination: "Free Education Library", href: "/learn" },
+    { visitor: "I'm interested but not ready.", destination: "Explore Investment Possibilities", href: "/goals" },
+  ],
+};
+
+export const finalConversionContent = {
+  heading: ["You've Spent Your Life Building Your Future.", "Shouldn't You Have More Say In It?"],
+  description:
+    "You may already understand opportunities your current retirement account won't let you pursue. The next chapter begins with understanding your options.",
+  signature: "Your Retirement. Your Decisions. More Possibilities.",
+};
 
 export const assetClasses = [
   {
@@ -108,72 +311,45 @@ export const standardSteps = [
   },
 ];
 
-export const libraryRows = [
-  {
-    number: "01",
-    category: "The Foundation",
-    title: "Which Plan Fits Your Goals?",
-    meta: "Compare plans · 4 min read",
-    link: "Self-directed 401(k) vs. self-directed IRA",
-    href: "/plans",
-    image: "/library/getting-started.webp",
-  },
-  {
-    number: "02",
-    category: "The Opportunity",
-    title: "Explore Real Estate With Retirement Funds.",
-    meta: "Real estate · 9 min read",
-    link: "Before a retirement plan buys property",
-    href: "/learn/real-estate",
-    image: "/library/real-estate.webp",
-  },
-  {
-    number: "03",
-    category: "The Next Step",
-    title: "Explore Your Rollover Options.",
-    meta: "Rollovers · 7 min read",
-    link: "Move an existing account into a self-directed plan",
-    href: "/learn/rollovers",
-    image: "/library/case-studies.webp",
-  },
-];
-
-export const checklistItems = [
-  "The account and its features",
-  "The people and proposed transaction",
-  "The documents and open questions",
-  "The help needed to move forward",
-];
-
 export const faqItems = [
   {
-    question: "Which plan fits my situation?",
+    question: "What exactly is a self-directed retirement plan?",
     answer:
-      "It depends on how you earn. A Self-Directed 401(k) generally fits business owners and the self-employed with no full-time employees other than a spouse. A Self-Directed IRA fits individual investors funding an account on their own, with or without an employer plan. Compare the two on our plans page, or ask the team and we'll help you choose.",
+      "A retirement account or plan structured to permit the account owner or authorized plan fiduciary to direct investments among a broader range of legally permissible assets, subject to the governing plan, provider, and law.",
   },
   {
-    question: "What can I invest in?",
+    question: "Can my retirement plan purchase real estate?",
     answer:
-      "Real estate, private lending, precious metals, digital assets, stocks and bonds, and more, assets your account is eligible to hold, within the rules that apply to that account type and provider. See what's possible on our investment page.",
+      "Certain self-directed IRAs and 401(k)s can invest in qualifying real estate. Ownership, expenses, income, financing, and prohibited transactions must be handled correctly.",
   },
   {
-    question: "Can I use money from an existing retirement account?",
+    question: "Do I need a business to open a self-directed 401(k)?",
     answer:
-      "In most cases, yes. Funds from an eligible 401(k), IRA, or other retirement account can typically be rolled over into your new self-directed plan without a taxable event when done correctly. Our team walks you through the rollover process during setup.",
+      "A one-participant 401(k) generally serves an owner-only business with qualifying compensation and no eligible common-law employees other than a spouse. Specific eligibility must be reviewed.",
   },
   {
-    question: "What does setup cost?",
+    question: "Can I open a self-directed IRA without a business?",
     answer:
-      "$1,500 for the whole package, covering setup and ongoing support for either plan. See the details on each plan's page, or ask the team if you have questions.",
+      "Yes. Business ownership is not ordinarily required. Account, contribution, and funding eligibility depend on applicable IRA rules.",
   },
   {
-    question: "How long does setup take?",
+    question: "Does self-direction eliminate custodians and fees?",
     answer:
-      "Most accounts are established within a few weeks of completing your paperwork, though timing can vary with your current provider and how funds are being moved or rolled over.",
+      "No. IRAs generally require an eligible trustee or custodian, and costs vary by provider and structure. Self-direction does not automatically reduce total fees.",
   },
   {
-    question: "What help do I receive afterward?",
+    question: "Can I use retirement-plan property personally?",
     answer:
-      "Your team stays available after setup, for account questions, documentation, and ongoing support as you invest. Continuing plan administration and tax-year resources are available through the Tax Academy client experience.",
+      "Generally, personal use of IRA-owned investment property by the account owner or other disqualified persons is prohibited. The specific restrictions must be assessed for the applicable retirement arrangement.",
+  },
+  {
+    question: "Can I move money from an existing retirement account?",
+    answer:
+      "Eligible transfers or rollovers may be possible, but the source account, destination, distribution rules, and tax characteristics determine what is permitted.",
+  },
+  {
+    question: "Why choose Roth Academy?",
+    answer:
+      "A commitment to education, responsible plan establishment, organized administrative support, and decades of specialized experience behind the approach we take with every client.",
   },
 ];

@@ -1,75 +1,86 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { assetClasses } from "@/data/home-content";
+import { investmentShowcase } from "@/data/home-content";
 
 export function AssetClassSection() {
   return (
     <section id="investments" className="scroll-mt-24 border-y border-r-line bg-r-stripe-1 py-20 md:py-28">
-      <div className="container-brand grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
-        <div className="flex min-w-0 flex-col md:justify-between">
-          <div>
-            <Eyebrow>Think Outside the Usual Menu</Eyebrow>
-            <h2 className="mt-4 text-4xl md:text-6xl">
-              Invest in the
-              <br />
-              <span className="text-r-gold">World You Know.</span>
-            </h2>
-            <p className="mt-6 max-w-sm text-sm text-r-muted font-body normal-case">
-              Use your retirement accounts to invest in opportunities you understand: from real
-              estate to private lending and beyond.
-            </p>
-            <span className="mt-6 block h-px w-12 bg-r-gold" aria-hidden />
-          </div>
+      <div className="container-brand max-w-3xl">
+        <Eyebrow>{investmentShowcase.eyebrow}</Eyebrow>
+        <h2 className="mt-4 text-4xl md:text-6xl">
+          {investmentShowcase.heading.map((line, index) => (
+            <span
+              key={line}
+              className={index === investmentShowcase.heading.length - 1 ? "block text-r-gold" : "block"}
+            >
+              {line}
+            </span>
+          ))}
+        </h2>
+        <p className="mt-6 text-base text-r-muted font-body normal-case">{investmentShowcase.intro}</p>
+      </div>
 
-          <p className="mt-10 text-xs uppercase leading-relaxed tracking-[0.15em] text-r-muted/70 md:mt-16">
-            Same Principles.
-            <br />A Wider World.
-          </p>
-        </div>
+      <div className="container-brand mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {investmentShowcase.items.map((item) => {
+          const card = (
+            <div className="group relative flex h-full min-h-[440px] flex-col justify-end overflow-hidden rounded-[var(--radius-brand-card)] border border-r-line transition-colors hover:border-r-gold/60">
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                  className="absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(120% 120% at 20% 10%, rgba(184,153,88,0.22) 0%, rgba(13,13,13,0.9) 55%), linear-gradient(160deg, #141414 0%, #0a0a0a 100%)",
+                  }}
+                />
+              )}
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(0deg, rgba(9,10,11,0.97) 0%, rgba(9,10,11,0.9) 46%, rgba(9,10,11,0.5) 68%, rgba(9,10,11,0.12) 88%)",
+                }}
+              />
 
-        <div>
-          <ul className="min-w-0 divide-y divide-r-line border-t border-r-line">
-            {assetClasses.map((item) => {
-              const Row = (
-                <div className="group flex items-center gap-4 py-5 sm:gap-6">
-                  <span className="w-6 shrink-0 text-xs text-r-gold sm:w-8">{item.number}</span>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-lg sm:text-xl">{item.label}</h3>
-                    <p className="mt-1 text-sm text-r-muted font-body normal-case">{item.description}</p>
-                  </div>
-                  <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-sm border border-r-line sm:h-20 sm:w-40">
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      sizes="160px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              );
-              return (
-                <li key={item.label}>
-                  {item.href ? (
-                    <Link href={item.href} className="block transition-colors hover:bg-r-panel-2">
-                      {Row}
-                    </Link>
-                  ) : (
-                    Row
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+              <span className="relative mx-7 mt-7 w-fit text-xs font-semibold uppercase tracking-[0.2em] text-r-gold md:mx-8 md:mt-8">
+                {item.number}
+              </span>
+
+              <div className="relative mt-auto p-7 md:p-8">
+                <h3 className="text-2xl leading-tight text-r-white md:text-[28px]">{item.label}</h3>
+                <p className="mt-2 text-sm font-semibold text-r-gold/90 font-body normal-case">{item.tagline}</p>
+                <p className="mt-3 text-sm leading-relaxed text-r-muted font-body normal-case">
+                  {item.description}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-2 border-t border-r-line/60 pt-4 text-sm font-semibold uppercase tracking-wide text-r-gold">
+                  {item.cta}
+                  <ArrowUpRight size={15} aria-hidden />
+                </span>
+              </div>
+            </div>
+          );
+
+          return (
+            <Link href={item.href} key={item.label} className="block h-full">
+              {card}
+            </Link>
+          );
+        })}
       </div>
 
       <div className="container-brand mt-10 border-t border-r-line pt-6">
-        <p className="max-w-3xl text-xs text-r-muted/70 font-body normal-case">
-          Investment availability depends on the account, provider, and applicable rules. The
-          academy does not recommend or custody investments.
-        </p>
+        <p className="max-w-3xl text-xs text-r-muted/70 font-body normal-case">{investmentShowcase.footnote}</p>
       </div>
     </section>
   );
