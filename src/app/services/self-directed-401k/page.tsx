@@ -8,6 +8,7 @@ import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { ServiceCrossLink } from "@/components/services/ServiceCrossLink";
 import { ClosingStatement } from "@/components/home/ClosingStatement";
 import { planDestinations } from "@/data/site-config";
+import { assetClasses } from "@/data/home-content";
 import {
   service401kHero,
   service401kFoundation,
@@ -16,7 +17,13 @@ import {
   service401kProcess,
   service401kFaq,
   service401kCrossLink,
+  service401kAssetHrefOverrides,
 } from "@/data/self-directed-401k-content";
+
+const service401kAssetItems = assetClasses.map((item) => ({
+  ...item,
+  href: service401kAssetHrefOverrides[item.label] ?? item.href,
+}));
 
 export const metadata: Metadata = {
   title: "Self-Directed 401(k)",
@@ -62,6 +69,7 @@ export default function SelfDirected401kPage() {
         intro="Use your self-directed 401(k) to invest in opportunities you already understand."
         tagline={["One Account.", "Many Markets."]}
         footnote="Investment availability depends on the account, provider, and applicable rules. The academy does not recommend or custody investments."
+        items={service401kAssetItems}
       />
 
       <ServicePricing
