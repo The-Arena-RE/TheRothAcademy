@@ -171,4 +171,5 @@ export const service401kCrossLink = {
 export const service401kAssetHrefOverrides: Record<string, string> = {
   "Real Estate": "/services/self-directed-401k/real-estate",
   "Private Lending": "/services/self-directed-401k/private-lending",
+  "Precious Metals": "/services/self-directed-401k/precious-metals",
 };
