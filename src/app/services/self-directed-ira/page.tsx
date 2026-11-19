@@ -2,33 +2,38 @@ import type { Metadata } from "next";
 import { ServiceHero } from "@/components/services/ServiceHero";
 import { ServiceOverview } from "@/components/services/ServiceOverview";
 import { ServiceProcess } from "@/components/services/ServiceProcess";
-import { ServiceAssetGrid } from "@/components/services/ServiceAssetGrid";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { ServiceCrossLink } from "@/components/services/ServiceCrossLink";
 import { ClosingStatement } from "@/components/home/ClosingStatement";
+import { DeepDiveSection } from "@/components/services/deepdive/DeepDiveSection";
+import { DeepDiveGallery } from "@/components/services/deepdive/DeepDiveGallery";
+import { DeepDiveComparisonTable } from "@/components/services/deepdive/DeepDiveComparisonTable";
+import { DeepDiveStoryList } from "@/components/services/deepdive/DeepDiveStoryList";
+import { DeepDiveReferenceLibrary } from "@/components/services/deepdive/DeepDiveReferenceLibrary";
 import { planDestinations } from "@/data/site-config";
-import { assetClasses } from "@/data/home-content";
 import {
   serviceIraHero,
   serviceIraFoundation,
   serviceIraOverview,
   serviceIraPricing,
   serviceIraProcess,
-  serviceIraFaq,
   serviceIraCrossLink,
-  serviceIraAssetHrefOverrides,
+  flagshipIraRevelation,
+  flagshipIraGallery,
+  flagshipIraStories,
+  flagshipIraComparison,
+  flagshipIraFunding,
+  flagshipIraRole,
+  flagshipIraCredibility,
+  flagshipIraFaq,
+  flagshipIraReferences,
 } from "@/data/self-directed-ira-content";
 
-const serviceIraAssetItems = assetClasses.map((item) => ({
-  ...item,
-  href: serviceIraAssetHrefOverrides[item.label] ?? item.href,
-}));
-
 export const metadata: Metadata = {
-  title: "Self-Directed IRA",
+  title: "Self-Directed IRA | Real Estate, Private Lending & More",
   description:
-    "A self-directed IRA built for individual investors: Traditional, Roth, or SEP, with room for the assets you understand.",
+    "Explore how a self-directed IRA may invest in real estate, private lending, private businesses, metals, and more. Discover your options and get started.",
 };
 
 export default function SelfDirectedIraPage() {
@@ -41,10 +46,36 @@ export default function SelfDirectedIraPage() {
         description={serviceIraHero.description}
         whoItsFor={serviceIraHero.whoItsFor}
         contactTopic="Self-Directed IRA"
-        primaryCta={{ label: "Open My IRA", href: planDestinations.openIra }}
+        primaryCta={{ label: "Start My Self-Directed IRA", href: planDestinations.openIra }}
         secondaryCta={{ label: "Ask a Question", href: planDestinations.getHelp }}
         imageSrc="/services/ira/hero.webp"
         summary={serviceIraHero.summary}
+      />
+
+      <DeepDiveSection {...flagshipIraRevelation} />
+
+      <DeepDiveGallery {...flagshipIraGallery} columns={3} />
+
+      <DeepDiveStoryList {...flagshipIraStories} />
+
+      <DeepDiveComparisonTable {...flagshipIraComparison} />
+
+      <ServiceProcess
+        eyebrow={serviceIraFoundation.eyebrow}
+        heading={serviceIraFoundation.heading}
+        steps={serviceIraFoundation.steps}
+        columns={3}
+      />
+
+      <DeepDiveSection {...flagshipIraFunding} />
+
+      <ServicePricing
+        eyebrow={serviceIraPricing.eyebrow}
+        heading={serviceIraPricing.heading}
+        intro={serviceIraPricing.intro}
+        included={serviceIraPricing.included}
+        price={serviceIraPricing.price}
+        note={serviceIraPricing.note}
       />
 
       <ServiceOverview
@@ -58,43 +89,24 @@ export default function SelfDirectedIraPage() {
       />
 
       <ServiceProcess
-        eyebrow={serviceIraFoundation.eyebrow}
-        heading={serviceIraFoundation.heading}
-        steps={serviceIraFoundation.steps}
-        columns={3}
-      />
-
-      <ServiceAssetGrid
-        eyebrow="Inside The Account"
-        heading={["What Your IRA", "Can Hold."]}
-        intro="Use your self-directed IRA to invest in opportunities you already understand."
-        tagline={["Same Principles.", "New Possibilities."]}
-        footnote="Investment availability depends on the account, provider, and applicable rules. The academy does not recommend or custody investments."
-        items={serviceIraAssetItems}
-      />
-
-      <ServicePricing
-        eyebrow={serviceIraPricing.eyebrow}
-        heading={serviceIraPricing.heading}
-        intro={serviceIraPricing.intro}
-        included={serviceIraPricing.included}
-        price={serviceIraPricing.price}
-        note={serviceIraPricing.note}
-      />
-
-      <ServiceProcess
         eyebrow={serviceIraProcess.eyebrow}
         heading={serviceIraProcess.heading}
         intro={serviceIraProcess.intro}
         steps={serviceIraProcess.steps}
       />
 
+      <DeepDiveGallery {...flagshipIraRole} columns={2} />
+
+      <DeepDiveSection {...flagshipIraCredibility} />
+
       <ServiceFaq
-        eyebrow={serviceIraFaq.eyebrow}
-        heading={serviceIraFaq.heading}
-        items={serviceIraFaq.items}
-        sourceLink={serviceIraFaq.sourceLink}
+        eyebrow={flagshipIraFaq.eyebrow}
+        heading={flagshipIraFaq.heading}
+        items={flagshipIraFaq.items}
+        sourceLink={flagshipIraFaq.sourceLink}
       />
+
+      <DeepDiveReferenceLibrary references={flagshipIraReferences} />
 
       <ServiceCrossLink
         label={serviceIraCrossLink.label}
@@ -102,7 +114,12 @@ export default function SelfDirectedIraPage() {
         href={serviceIraCrossLink.href}
       />
 
-      <ClosingStatement primaryLabel="Open My IRA" primaryHref={planDestinations.openIra} />
+      <ClosingStatement
+        heading={<>Your Retirement Account Has More Possibilities <span className="text-r-gold">Than You Think.</span></>}
+        description="Real estate. Private lending. Private investments. If you are ready to explore a self-directed IRA, our team can help you take the first step."
+        primaryLabel="Start My Self-Directed IRA"
+        primaryHref={planDestinations.openIra}
+      />
     </>
   );
 }
