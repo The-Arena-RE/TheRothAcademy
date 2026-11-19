@@ -25,7 +25,7 @@ export const mainNav = [
 
 export const planDestinations = {
   openPlan: "/apply",
-  open401k: "/start?plan=401k",
+  open401k: "/apply",
   openIra: "/apply",
   comparePlans: "/plans",
   getHelp: "/contact",
