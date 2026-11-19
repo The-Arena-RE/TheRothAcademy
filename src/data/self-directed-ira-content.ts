@@ -1,3 +1,8 @@
+export const serviceIraAssetHrefOverrides: Record<string, string> = {
+  "Precious Metals": "/services/self-directed-ira/precious-metals",
+  "Digital Assets": "/services/self-directed-ira/cryptocurrency",
+};
+
 export const serviceIraHero = {
   eyebrow: "For Individual Investors",
   title: ["Give Your Retirement Money", "More Possibilities."],

@@ -8,6 +8,7 @@ import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { ServiceCrossLink } from "@/components/services/ServiceCrossLink";
 import { ClosingStatement } from "@/components/home/ClosingStatement";
 import { planDestinations } from "@/data/site-config";
+import { assetClasses } from "@/data/home-content";
 import {
   serviceIraHero,
   serviceIraFoundation,
@@ -16,7 +17,13 @@ import {
   serviceIraProcess,
   serviceIraFaq,
   serviceIraCrossLink,
+  serviceIraAssetHrefOverrides,
 } from "@/data/self-directed-ira-content";
+
+const serviceIraAssetItems = assetClasses.map((item) => ({
+  ...item,
+  href: serviceIraAssetHrefOverrides[item.label] ?? item.href,
+}));
 
 export const metadata: Metadata = {
   title: "Self-Directed IRA",
@@ -63,6 +70,7 @@ export default function SelfDirectedIraPage() {
         intro="Use your self-directed IRA to invest in opportunities you already understand."
         tagline={["Same Principles.", "New Possibilities."]}
         footnote="Investment availability depends on the account, provider, and applicable rules. The academy does not recommend or custody investments."
+        items={serviceIraAssetItems}
       />
 
       <ServicePricing
