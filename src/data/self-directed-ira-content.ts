@@ -86,7 +86,7 @@ export const flagshipIraFunding = {
   eyebrow: "The Funding Possibility",
   heading: ["You May Already Have Retirement Funds", "That Could Be Put To Work Differently"],
   goldLine: 1,
-  tone: "panel" as const,
+  tone: "dark" as const,
   paragraphs: [
     "A self-directed IRA does not necessarily begin with new retirement savings. Depending on the account type and applicable eligibility rules, existing IRA assets may be transferred, and eligible distributions from employer retirement plans may be rolled over, into an appropriate IRA.",
     "That means someone who has been saving for years may be able to explore new investment categories using eligible retirement funds already accumulated.",
