@@ -12,6 +12,7 @@ const INTEREST_OPTIONS = [
   "Self-Directed IRA",
   "Advanced services",
   "Events & workshops",
+  "Partnership opportunities",
 ];
 
 const inputClasses =
