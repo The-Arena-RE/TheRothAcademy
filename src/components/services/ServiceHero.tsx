@@ -30,6 +30,7 @@ export function ServiceHero({
   summary,
   videoSrc,
   imageSrc,
+  titleScale = "default",
 }: {
   eyebrow: string;
   title: string[];
@@ -43,6 +44,10 @@ export function ServiceHero({
   summary?: Summary;
   videoSrc?: string;
   imageSrc?: string;
+  // "compact" suits long, sentence-style headlines (e.g. learn-module
+  // titles) that would otherwise wrap across too many lines at the
+  // default display size.
+  titleScale?: "default" | "compact";
 }) {
   const { open } = useContactModal();
 
@@ -113,7 +118,11 @@ export function ServiceHero({
               className={clsx(!summary && "max-w-3xl")}
               style={{
                 marginTop: 35,
-                fontSize: summary ? "clamp(48px, 6vw, 84px)" : "clamp(76px, 10.8vw, 146px)",
+                fontSize: summary
+                  ? "clamp(48px, 6vw, 84px)"
+                  : titleScale === "compact"
+                    ? "clamp(40px, 6.5vw, 92px)"
+                    : "clamp(76px, 10.8vw, 146px)",
                 lineHeight: 0.95,
                 letterSpacing: "-0.025em",
               }}
