@@ -11,6 +11,14 @@
   "observability": {
     "enabled": true
   },
+  // This database_id belongs to the production Cloudflare account that owns
+  // the therothacademy.com zone and actually serves live traffic. A second,
+  // disconnected Cloudflare account previously had its own same-named
+  // "roth-academy-applications" D1 database (different, empty, unused ID) --
+  // that account's duplicate Worker project has since been deleted. If a
+  // future "D1 binding not found" deploy error shows up again, verify which
+  // Cloudflare account actually owns the domain's DNS zone before changing
+  // this value.
   "d1_databases": [
     {
       "binding": "DB",
