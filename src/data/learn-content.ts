@@ -3,7 +3,34 @@ export const learnHero = {
   title: ["The More You", "Know. The", "Further You See."],
   goldLine: 2,
   description:
-    "Understand the questions behind the opportunity. Practical guides for your first plan and the more complex decisions ahead.",
+    "What if your retirement account could invest in something you've actually dreamed of owning? A rental property. A piece of land. A private business. An investment that pays interest. Discover extraordinary investment possibilities through simple explanations, fascinating real-world-style examples, and lessons created for people just like you. Whether you're starting small or investing millions, there's something worth discovering.",
+};
+
+export const learnCollections = [
+  {
+    eyebrow: "The Entrepreneur's Collection",
+    heading: "You Built Something of Your Own. Discover What Else You Could Build.",
+    description:
+      "Imagine investing in vacant land, rental houses, private loans, commercial properties, or private businesses through a qualifying self-directed 401(k). Whether you're a contractor, freelancer, truck driver, real estate professional, business owner, or sophisticated entrepreneur, discover investment possibilities you may never have considered.",
+    ctaLabel: "Explore the 401(k) Library",
+    href: "/learn/self-directed-401k",
+    image: "/pathways/401k.webp",
+  },
+  {
+    eyebrow: "The Individual Investor's Collection",
+    heading: "Extraordinary Investments Aren't Just for Wall Street.",
+    description:
+      "Imagine owning investment land, collecting rental income, receiving interest from private loans, or investing in privately held companies through a qualifying self-directed IRA. Whether you're a teacher, nurse, construction worker, young investor, experienced landlord, or multimillionaire, discover opportunities beyond the investments traditionally offered by brokerage accounts. You don't need to own a business to establish an IRA.",
+    ctaLabel: "Explore the IRA Library",
+    href: "/learn/self-directed-ira",
+    image: "/pathways/ira.webp",
+  },
+];
+
+export const learnFinalSection = {
+  heading: ["The Next Thing You Learn Might", "Change What You Consider Possible."],
+  description:
+    "Maybe it's a small piece of land. Maybe it's a rental property producing income for an investment account. Maybe it's the ability to participate in a private investment opportunity that you've never considered. Whether you're just getting started or already managing substantial investments, there's always something new to discover. Find your opportunity. Explore the possibilities. Start learning.",
 };
 
 export const learnSupportBanner = {

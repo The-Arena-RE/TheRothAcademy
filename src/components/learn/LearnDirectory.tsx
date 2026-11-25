@@ -38,8 +38,8 @@ export function LearnDirectory() {
       <div className="container-brand">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow>Read. Prepare. Ask Better Questions.</Eyebrow>
-            <h2 className="mt-4 text-4xl md:text-6xl">The Full Library.</h2>
+            <Eyebrow>For Active Plans & Established Customers</Eyebrow>
+            <h2 className="mt-4 text-4xl md:text-6xl">Plan Administration & Ongoing Guides.</h2>
           </div>
 
           <label className="relative w-full max-w-xs">
@@ -74,7 +74,7 @@ export function LearnDirectory() {
           <span>
             {filteredGuides.length} guide{filteredGuides.length === 1 ? "" : "s"}
           </span>
-          <span className="hidden sm:inline">Read. Prepare. Ask Better Questions.</span>
+          <span className="hidden sm:inline">Already Underway? Keep Learning Here.</span>
         </div>
 
         {filteredGuides.length > 0 ? (
