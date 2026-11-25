@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { DeepDiveSection } from "@/components/services/deepdive/DeepDiveSection";
+import { ControversyShowcase } from "@/components/home/ControversyShowcase";
+import { QualificationShowcase } from "@/components/home/QualificationShowcase";
 import { AssetClassSection } from "@/components/home/AssetClassSection";
 import { PathwaysSection } from "@/components/home/PathwaysSection";
 import { StandardSection } from "@/components/home/StandardSection";
@@ -8,15 +9,15 @@ import { ObjectionBreakerSection } from "@/components/home/ObjectionBreakerSecti
 import { PathwayTableSection } from "@/components/home/PathwayTableSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { ClosingStatement } from "@/components/home/ClosingStatement";
-import { controversyContent, qualificationContent, finalConversionContent } from "@/data/home-content";
+import { finalConversionContent } from "@/data/home-content";
 import { planDestinations } from "@/data/site-config";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <DeepDiveSection {...controversyContent} tone="dark" />
-      <DeepDiveSection {...qualificationContent} tone="panel" />
+      <ControversyShowcase />
+      <QualificationShowcase />
       <AssetClassSection />
       <PathwaysSection />
       <CompanyCredibilitySection />

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ShieldAlert, FileText, Landmark } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { objectionBreakerContent as content } from "@/data/home-content";
+
+const referenceIcons = [ShieldAlert, FileText, Landmark];
 
 export function ObjectionBreakerSection() {
   return (
@@ -36,22 +38,32 @@ export function ObjectionBreakerSection() {
           </Link>
         </div>
 
-        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/40 p-7 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-r-muted">Further Reading</p>
+        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/60 p-7 shadow-xl shadow-black/30 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-r-gold">Verified Sources</p>
           <ul className="mt-5 space-y-4">
-            {content.references.map((reference) => (
-              <li key={reference.href} className="border-t border-r-line pt-4 first:border-t-0 first:pt-0">
-                <a
-                  href={reference.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-start gap-2 text-sm leading-relaxed text-r-muted transition-colors font-body normal-case hover:text-r-gold"
-                >
-                  {reference.label}
-                  <ArrowUpRight size={14} className="mt-0.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-                </a>
-              </li>
-            ))}
+            {content.references.map((reference, index) => {
+              const Icon = referenceIcons[index % referenceIcons.length];
+              return (
+                <li key={reference.href} className="border-t border-r-line pt-4 first:border-t-0 first:pt-0">
+                  <a
+                    href={reference.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start gap-3 text-sm leading-relaxed text-r-muted transition-colors font-body normal-case hover:text-r-gold"
+                  >
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-r-line text-r-muted transition-colors group-hover:border-r-gold/50 group-hover:text-r-gold">
+                      <Icon size={14} aria-hidden />
+                    </span>
+                    <span className="flex-1 pt-1">{reference.label}</span>
+                    <ArrowUpRight
+                      size={14}
+                      className="mt-1.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                      aria-hidden
+                    />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
