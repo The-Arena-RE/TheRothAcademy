@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -7,17 +6,7 @@ import { standardContent } from "@/data/home-content";
 export function StandardSection() {
   return (
     <section className="relative overflow-hidden border-b border-r-line bg-r-bg py-20 md:py-28">
-      <Image aria-hidden src="/gold-texture.jpg" alt="" fill sizes="100vw" className="pointer-events-none object-cover opacity-50" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(9,10,11,0.55) 0%, rgba(9,10,11,0.85) 35%, rgba(9,10,11,0.95) 70%, rgba(9,10,11,1) 100%)",
-        }}
-      />
-
-      <div className="container-brand relative grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
+      <div className="container-brand grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
         <div>
           <Eyebrow>{standardContent.eyebrow}</Eyebrow>
           <h2 className="mt-4 max-w-xl text-4xl md:text-6xl">

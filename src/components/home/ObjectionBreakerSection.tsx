@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ShieldAlert, FileText, Landmark } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -8,18 +7,8 @@ const referenceIcons = [ShieldAlert, FileText, Landmark];
 
 export function ObjectionBreakerSection() {
   return (
-    <section className="relative overflow-hidden border-y border-r-line bg-r-stripe-1 py-20 md:py-28">
-      <Image aria-hidden src="/about/why-we-build.webp" alt="" fill sizes="100vw" className="pointer-events-none object-cover opacity-25" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(18,19,21,0.75) 0%, rgba(18,19,21,0.92) 30%, rgba(18,19,21,0.97) 60%, rgba(18,19,21,1) 100%)",
-        }}
-      />
-
-      <div className="container-brand relative grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
+    <section className="border-y border-r-line bg-r-stripe-1 py-20 md:py-28">
+      <div className="container-brand grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
         <div className="max-w-xl">
           <Eyebrow>{content.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-4xl md:text-6xl">
@@ -49,7 +38,7 @@ export function ObjectionBreakerSection() {
           </Link>
         </div>
 
-        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/80 p-7 shadow-xl shadow-black/30 backdrop-blur-sm md:p-8">
+        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/60 p-7 shadow-xl shadow-black/30 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-r-gold">Verified Sources</p>
           <ul className="mt-5 space-y-4">
             {content.references.map((reference, index) => {

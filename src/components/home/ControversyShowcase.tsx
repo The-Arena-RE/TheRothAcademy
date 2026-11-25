@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { controversyContent } from "@/data/home-content";
 import { compensationCategories } from "@/data/why-self-directed-content";
@@ -16,20 +15,13 @@ export function ControversyShowcase() {
 
   return (
     <section className="relative overflow-hidden border-b border-r-line bg-r-bg py-20 md:py-28">
-      <Image
-        aria-hidden
-        src="/services/401k/overview.webp"
-        alt=""
-        fill
-        sizes="100vw"
-        className="pointer-events-none object-cover opacity-25"
-      />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute -left-[10%] top-0 h-full w-[45%] opacity-[0.14] mix-blend-screen"
         style={{
           background:
-            "linear-gradient(180deg, rgba(9,10,11,0.75) 0%, rgba(9,10,11,0.92) 30%, rgba(9,10,11,0.97) 60%, rgba(9,10,11,1) 100%)",
+            "conic-gradient(from 20deg at 50% 50%, transparent 0deg, var(--color-r-gold-dark) 60deg, var(--color-r-gold) 110deg, transparent 200deg, transparent 360deg)",
+          filter: "blur(60px)",
         }}
       />
 
@@ -47,7 +39,7 @@ export function ControversyShowcase() {
       </div>
 
       <div className="container-brand relative mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-bg/70 p-7 backdrop-blur-sm md:p-8">
+        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/40 p-7 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-r-muted">The Conventional Menu</p>
           <p className="mt-2 text-sm leading-relaxed text-r-muted/80 font-body normal-case">
             What a financial professional might earn from your account.
