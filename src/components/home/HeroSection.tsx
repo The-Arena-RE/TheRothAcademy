@@ -55,23 +55,23 @@ export function HeroSection() {
           </p>
 
           <h1
-            className="max-w-4xl text-r-white"
+            className="max-w-5xl text-r-white"
             style={{
               marginTop: 35,
-              fontSize: "clamp(44px, 8.5vw, 108px)",
+              fontSize: "clamp(38px, 6.2vw, 84px)",
               fontWeight: 500,
-              lineHeight: 0.98,
+              lineHeight: 1.02,
               letterSpacing: "-0.02em",
             }}
           >
-            <span className="block">{heroContent.title[0]}</span>
-            <span className="block text-r-muted/50 line-through decoration-r-gold/30">
+            <span className="block md:inline">{heroContent.title[0]}</span>{" "}
+            <span className="block text-r-muted/50 line-through decoration-r-gold/30 md:inline">
               {heroContent.title[1]}
             </span>
             <em className="block not-italic text-r-gold">{heroContent.title[2]}</em>
           </h1>
 
-          <p className="mt-6 max-w-xl text-base text-r-muted font-body normal-case">
+          <p className="mt-6 max-w-lg text-base text-r-muted font-body normal-case">
             {heroContent.description}
           </p>
 

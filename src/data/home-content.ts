@@ -2,7 +2,7 @@ export const heroContent = {
   eyebrow: "The Retirement Conversation Worth Having",
   title: ["Your Retirement.", "Their Rules.", "Until Now."],
   description:
-    "For years, millions of Americans have invested their retirement savings through menus of investments selected by financial institutions. But what if your retirement account could own real estate? Make qualifying private loans? Invest in certain privately held businesses? What if the opportunities you understand best aren't even on the menu you've been given?",
+    "What if your retirement account could own real estate? Make qualifying private loans? Invest in certain privately held businesses? For years, the menu you were handed never included any of it.",
   featured: "You may have more choices than you realize.",
   primaryLabel: "Discover What's Possible",
   primaryHref: "#investments",
