@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { controversyContent } from "@/data/home-content";
 import { compensationCategories } from "@/data/why-self-directed-content";
@@ -15,13 +16,20 @@ export function ControversyShowcase() {
 
   return (
     <section className="relative overflow-hidden border-b border-r-line bg-r-bg py-20 md:py-28">
+      <Image
+        aria-hidden
+        src="/services/401k/overview.webp"
+        alt=""
+        fill
+        sizes="100vw"
+        className="pointer-events-none object-cover opacity-25"
+      />
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-[10%] top-0 h-full w-[45%] opacity-[0.14] mix-blend-screen"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "conic-gradient(from 20deg at 50% 50%, transparent 0deg, var(--color-r-gold-dark) 60deg, var(--color-r-gold) 110deg, transparent 200deg, transparent 360deg)",
-          filter: "blur(60px)",
+            "linear-gradient(180deg, rgba(9,10,11,0.75) 0%, rgba(9,10,11,0.92) 30%, rgba(9,10,11,0.97) 60%, rgba(9,10,11,1) 100%)",
         }}
       />
 
@@ -35,17 +43,11 @@ export function ControversyShowcase() {
           ))}
         </h2>
 
-        <div className="mt-6 space-y-4">
-          {content.paragraphs.slice(0, 2).map((paragraph) => (
-            <p key={paragraph} className="text-base leading-relaxed text-r-muted font-body normal-case">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        <p className="mt-6 text-base leading-relaxed text-r-muted font-body normal-case">{content.paragraphs[0]}</p>
       </div>
 
-      <div className="container-brand relative mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-panel/40 p-7 md:p-8">
+      <div className="container-brand relative mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-[var(--radius-brand-card)] border border-r-line bg-r-bg/70 p-7 backdrop-blur-sm md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-r-muted">The Conventional Menu</p>
           <p className="mt-2 text-sm leading-relaxed text-r-muted/80 font-body normal-case">
             What a financial professional might earn from your account.
@@ -80,14 +82,8 @@ export function ControversyShowcase() {
         </div>
       </div>
 
-      <div className="container-brand relative mt-12 max-w-3xl">
-        <div className="space-y-4">
-          {content.paragraphs.slice(2).map((paragraph) => (
-            <p key={paragraph} className="text-base leading-relaxed text-r-muted font-body normal-case">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+      <div className="container-brand relative mt-10 max-w-3xl">
+        <p className="text-base leading-relaxed text-r-muted font-body normal-case">{content.paragraphs[1]}</p>
 
         <p className="mt-8 border-l-2 border-r-gold pl-5 text-xl text-r-white md:text-2xl">{content.featured}</p>
 

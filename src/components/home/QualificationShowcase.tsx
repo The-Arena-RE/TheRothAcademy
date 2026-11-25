@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Handshake, Compass } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { qualificationContent } from "@/data/home-content";
@@ -19,8 +20,25 @@ export function QualificationShowcase() {
   const content = qualificationContent;
 
   return (
-    <section className="border-b border-r-line bg-r-stripe-2 py-20 md:py-28">
-      <div className="container-brand max-w-3xl">
+    <section className="relative overflow-hidden border-b border-r-line bg-r-stripe-2 py-20 md:py-28">
+      <Image
+        aria-hidden
+        src="/about/next-chapter.webp"
+        alt=""
+        fill
+        sizes="100vw"
+        className="pointer-events-none object-cover opacity-25"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(21,22,24,0.75) 0%, rgba(21,22,24,0.92) 30%, rgba(21,22,24,0.97) 60%, rgba(21,22,24,1) 100%)",
+        }}
+      />
+
+      <div className="container-brand relative max-w-3xl">
         <Eyebrow>{content.eyebrow}</Eyebrow>
         <h2 className="mt-4 text-4xl md:text-6xl">
           {content.heading.map((line, index) => (
@@ -32,8 +50,8 @@ export function QualificationShowcase() {
         <p className="mt-6 text-base leading-relaxed text-r-muted font-body normal-case">{content.paragraphs[0]}</p>
       </div>
 
-      <div className="container-brand mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="flex flex-col rounded-[var(--radius-brand-card)] border border-r-line bg-r-bg/40 p-7 md:p-8">
+      <div className="container-brand relative mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="flex flex-col rounded-[var(--radius-brand-card)] border border-r-line bg-r-bg/70 p-7 backdrop-blur-sm md:p-8">
           <span className="flex h-11 w-11 items-center justify-center rounded-full border border-r-line text-r-muted">
             <Handshake size={18} aria-hidden />
           </span>
@@ -68,7 +86,7 @@ export function QualificationShowcase() {
         </div>
       </div>
 
-      <div className="container-brand mt-12 max-w-3xl">
+      <div className="container-brand relative mt-12 max-w-3xl">
         <p className="border-l-2 border-r-gold pl-5 text-xl text-r-white md:text-2xl">{content.featured}</p>
         {content.note && (
           <p className="mt-8 text-xs leading-relaxed text-r-muted/70 font-body normal-case">{content.note}</p>

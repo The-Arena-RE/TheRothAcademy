@@ -22,10 +22,8 @@ export const controversyContent = {
   heading: ["Before You Ask Someone About Self-Direction,", "Ask How They Get Paid."],
   goldLine: 1,
   paragraphs: [
-    "Financial professionals are compensated in different ways. Some earn commissions. Others collect asset-based management fees, advisory fees, or compensation associated with specific financial products. Many provide valuable services. Some are excellent at what they do.",
-    "But there is a question every retirement investor deserves to ask: could the person advising me have a financial incentive to keep my money in the products and services their firm provides?",
-    "The financial industry has structures, incentives, limitations, and conflicts that investors should understand. A self-directed retirement plan introduces a different possibility. Instead of having your investment universe defined solely by the offerings of a particular institution, an appropriately structured retirement account may permit investments in a much wider range of assets.",
-    "Real estate. Private loans. Certain privately held businesses. And other qualifying opportunities. Not without rules. Not without risks. And certainly not without responsibility. But potentially with a level of choice you never knew existed.",
+    "Financial professionals get paid in different ways — commissions, asset-based fees, product-tied compensation. Before trusting someone with your retirement, it's worth asking: does their advice change based on how they get paid?",
+    "Real estate. Private loans. Certain privately held businesses. Not without rules, risks, or responsibility — but potentially with a level of choice you never knew existed.",
   ],
   featured:
     "The question isn't whether your financial adviser is a good person. The question is whether the investment choices you've been offered are all the choices available to you.",
@@ -37,8 +35,7 @@ export const qualificationContent = {
   heading: ["Self-Direction Isn't For Everyone.", "That's Exactly The Point."],
   goldLine: 1,
   paragraphs: [
-    "If you enjoy meeting with your financial adviser, prefer having someone select and monitor investments for you, and are comfortable paying for those services, a conventional arrangement may be appropriate. There is nothing wrong with that. Some people value delegation. Some value the guidance of a professional. Some simply do not want responsibility for individual investment decisions. We respect that choice.",
-    "But there is another kind of investor. The entrepreneur who understands real estate. The business owner who knows how to evaluate private opportunities. The investor who has spent years developing expertise in a particular market. The person who doesn't want the limits of a standard investment menu to define their retirement strategy. For that person, self-direction may change the conversation entirely.",
+    "Some investors prefer delegating decisions to a trusted professional — a perfectly reasonable choice. Others want to evaluate opportunities themselves. The difference isn't about being right. It's about knowing which investor you are.",
   ],
   featured:
     "If you want someone else to make your investment decisions, self-direction may not be for you. If you want greater authority over those decisions, you deserve to know what's possible.",
@@ -183,8 +180,7 @@ export const standardContent = {
   eyebrow: "The Roth Academy Standard",
   heading: ["We Would Rather Tell You No", "Than Sell You The Wrong Plan."],
   paragraphs: [
-    "Retirement investing isn't a game. An investment that sounds attractive is not automatically permissible inside an IRA or 401(k). An investment structure that works for one individual may be inappropriate for another. And an impressive sales pitch will not protect someone from a prohibited transaction.",
-    "That's why we believe the right starting point is more important than making the fastest sale. We believe in meaningful education, clear responsibilities, accurate representations, and building relationships that can last.",
+    "Retirement investing isn't a game. An investment that sounds attractive isn't automatically permissible inside an IRA or 401(k) — and an impressive sales pitch won't protect you from a prohibited transaction. That's why we believe the right starting point matters more than making the fastest sale.",
   ],
   featured: "A retirement plan is a long-term commitment. We intend to treat it like one.",
 };
@@ -193,8 +189,7 @@ export const objectionBreakerContent = {
   eyebrow: "Worth Understanding",
   heading: ["More Freedom.", "The Same Responsibility."],
   paragraphs: [
-    "Self-direction is not a loophole. It does not eliminate the laws governing retirement accounts. It does not make every investment appropriate, and it does not guarantee returns.",
-    "Certain transactions with yourself, relatives, or other disqualified persons can create serious tax consequences. IRA-held property is not personal-use property. Some investments may be difficult to value or sell, and some may involve substantial losses.",
+    "Self-direction isn't a loophole — it doesn't eliminate the law, guarantee returns, or remove responsibility. Transactions with yourself or relatives can trigger serious tax consequences, and some investments are hard to value, hard to sell, or can lose real money.",
   ],
   featured: "Greater control is valuable when it is paired with sound judgment.",
   ctaLabel: "Understand the Rules",
