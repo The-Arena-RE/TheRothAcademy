@@ -39,6 +39,7 @@ export const footerNav = {
       { label: "Self-Directed IRA", href: "/services/self-directed-ira" },
       { label: "Compare Plans", href: "/plans" },
       { label: "What Would You Invest In?", href: "/goals" },
+      { label: "Why Self-Directed?", href: "/why-self-directed" },
     ],
   },
   academy: {
