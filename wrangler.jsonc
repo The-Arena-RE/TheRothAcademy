@@ -1,4 +1,7 @@
 {
+  // Cloudflare Workers Builds (in the Cloudflare account that owns the
+  // therothacademy.com zone) deploys from the "main" branch as of 2026-11-25.
+  // There is no other branch to merge into for a change to go live.
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "therothacademy",
   "main": ".open-next/worker.js",
