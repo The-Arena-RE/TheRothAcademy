@@ -49,14 +49,14 @@ export const investmentShowcase = {
   eyebrow: "The Dream",
   heading: ["Imagine What Your", "Retirement Could Own."],
   intro:
-    "A self-directed retirement plan is still a retirement plan. It operates under applicable retirement and tax laws. But depending on the account structure and provider, it may hold investments far beyond the conventional brokerage menu. The interesting question becomes: what opportunities do you understand that your current retirement account doesn't allow you to pursue?",
+    "What opportunities do you understand that your current retirement account won't let you touch? A self-directed retirement plan is still a retirement plan, operating under applicable retirement and tax laws — but depending on the account structure and provider, it may hold investments far beyond the conventional brokerage menu.",
   items: [
     {
       number: "01",
       label: "Real Estate",
       tagline: "Your retirement plan could own the property.",
       description:
-        "A qualifying retirement account purchases investment property. Rental income belongs to the account, and property-related expenses are paid by the account. The investment is held for retirement purposes, subject to the applicable rules.",
+        "Picture it: your plan holds the deed. Rent checks flow into the account every month, expenses flow out, and equity builds on an asset you can actually walk through — all held for retirement purposes, subject to the applicable rules.",
       cta: "Explore Real Estate Investing",
       href: "/goals#real-estate",
       image: "/investments/real-estate.jpg",
@@ -66,7 +66,7 @@ export const investmentShowcase = {
       label: "Private Lending",
       tagline: "Your retirement plan could be the lender.",
       description:
-        "An appropriately structured retirement plan may make qualifying private loans and receive interest payments into the plan, secured by real estate or other eligible collateral.",
+        "Your plan becomes the bank. Structure a qualifying private loan secured by real estate or other eligible collateral, and watch the interest payments land in the account like clockwork.",
       cta: "Explore Private Lending",
       href: "/goals#private-lending",
       image: "/investments/private-lending.jpg",
@@ -76,16 +76,16 @@ export const investmentShowcase = {
       label: "Private Business Investments",
       tagline: "Some of the most interesting companies aren't on a stock exchange.",
       description:
-        "Certain privately held business interests may be eligible investments, subject to prohibited-transaction rules, tax considerations, and other restrictions.",
+        "Back the next great idea before Wall Street ever gets the chance. Certain privately held business interests may be eligible investments, subject to prohibited-transaction rules, tax considerations, and other restrictions.",
       cta: "Explore Private Investments",
       href: "/goals#private-business",
     },
     {
       number: "04",
       label: "Precious Metals",
-      tagline: "Another form of retirement diversification.",
+      tagline: "A tangible hedge for an uncertain world.",
       description:
-        "Certain qualifying metals may be held through permitted custodial arrangements. Personal possession of IRA-owned bullion is not permitted.",
+        "Add real, physical weight to your portfolio. Gold, silver, and other qualifying metals may be held through permitted custodial arrangements. (Personal possession of IRA-owned bullion is not permitted.)",
       cta: "Explore Precious Metals",
       href: "/goals#precious-metals",
       image: "/investments/precious-metals.jpg",
@@ -95,7 +95,7 @@ export const investmentShowcase = {
       label: "Digital Assets",
       tagline: "Explore a new investment frontier, with an understanding of the risks.",
       description:
-        "Some self-directed arrangements permit certain digital assets, depending on the provider, custody arrangement, and applicable requirements.",
+        "Get in early on where capital is headed next. Some self-directed arrangements permit certain digital assets, depending on the provider, custody arrangement, and applicable requirements.",
       cta: "Explore Digital Assets",
       href: "/goals#digital-assets",
       image: "/investments/digital-assets.jpg",
