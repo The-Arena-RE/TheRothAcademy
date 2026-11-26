@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EditorialFooter } from "@/components/editorial/EditorialFooter";
 import { newsreader, dmSans } from "@/lib/editorial-fonts";
+import "@/styles/editorial-footer.css";
 
 // Standalone ad-landing pages render without the site header/footer/nav.
 const STANDALONE_PATHS = [
@@ -43,7 +44,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       {editorialScope ? (
-        <div className={`${newsreader.variable} ${dmSans.variable} ${editorialScope}`}>
+        <div className={`${newsreader.variable} ${dmSans.variable} ${editorialScope} editorial-footer`}>
           <EditorialFooter />
         </div>
       ) : (

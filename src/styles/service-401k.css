@@ -125,7 +125,6 @@
 .service-401k-page .faq-topic .faq-list summary { min-height: 55px; }
 }
 .service-401k-page .statement .button { margin-top: 0; }
-.service-401k-page .footer.dark { background: #111111; }
 .service-401k-page .service-hero { position: relative; isolation: isolate; background: #111; border-bottom: 1px solid var(--dark-line); }
 .service-401k-page .service-hero > img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 66% 53%; filter: saturate(.52); }
 .service-401k-page .service-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #111 3%, rgb(17 17 17 / .98) 30%, rgb(17 17 17 / .74) 59%, rgb(17 17 17 / .56) 100%); }
@@ -404,26 +403,4 @@
 .service-401k-page .photo-hero > img { width: 100%; object-position: 59% center; }
 .service-401k-page .photo-hero::before { background: linear-gradient(90deg,rgb(17 17 17 / .91),rgb(17 17 17 / .62)),linear-gradient(0deg,rgb(17 17 17 / .73),transparent 72%); }
 .service-401k-page .eligibility-photo img { object-position: 50% 37%; }
-}
-
-.service-401k-page .footer { padding-block: 43px 28px; }
-.service-401k-page .footer.dark { background: #111111; }
-.service-401k-page .footer-grid { display: grid; grid-template-columns: 1.18fr 1fr 1fr 1fr; gap: 26px; font-size: 13px; color: var(--dark-muted); }
-.service-401k-page .footer-grid h3 { font-size: 23px; color: var(--on-dark); margin-bottom: 7px; }
-.service-401k-page .footer-logo img { width: auto; height: 69px; margin-bottom: 11px; }
-.service-401k-page .footer-grid a, .service-401k-page .legal a { text-underline-offset: 3px; text-decoration-color: #776b56; }
-.service-401k-page .footer-grid a:hover, .service-401k-page .legal a:hover { color: var(--on-dark); }
-.service-401k-page .footer-grid li + li { margin-top: 3px; }
-.service-401k-page .footer-contact { margin-top: 10px; overflow-wrap: anywhere; }
-.service-401k-page .footer-contact a { display: block; }
-.service-401k-page .legal { display: flex; justify-content: space-between; gap: 15px; margin-top: 27px; padding: 15px 0 10px; border-top: 1px solid var(--dark-line); }
-.service-401k-page .legal a + a { margin-left: 16px; }
-.service-401k-page .disclaimer { max-width: 106ch; }
-@media (max-width: 760px) {
-.service-401k-page .footer-grid { grid-template-columns: repeat(2, 1fr); }
-.service-401k-page .legal { flex-wrap: wrap; }
-}
-@media (max-width: 490px) {
-.service-401k-page .footer-grid { grid-template-columns: 1fr; gap: 21px 15px; }
-.service-401k-page .footer-grid > :first-child { grid-column: 1 / -1; }
 }

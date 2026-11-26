@@ -113,18 +113,6 @@
 .service-ira-page .closing .closing-copy > p { color: var(--dark-muted); }
 .service-ira-page .closing .motto { margin-top: 20px; }
 .service-ira-page .dedication { display: flex; flex-wrap: wrap; gap: 4px 11px; margin-top: 6px; color: var(--gold); font-size: 11px; }
-.service-ira-page .footer { padding-block: 43px 28px; }
-.service-ira-page .footer-grid { display: grid; grid-template-columns: 1.18fr 1fr 1fr 1fr; gap: 26px; font-size: 13px; color: var(--dark-muted); }
-.service-ira-page .footer-grid h3 { font-size: 26px; color: var(--on-dark); margin-bottom: 7px; }
-.service-ira-page .footer-logo img { width: auto; height: 69px; margin-bottom: 11px; }
-.service-ira-page .footer-grid a, .service-ira-page .legal a { text-underline-offset: 3px; text-decoration-color: #776b56; }
-.service-ira-page .footer-grid a:hover, .service-ira-page .legal a:hover { color: var(--on-dark); }
-.service-ira-page .footer-grid li + li { margin-top: 3px; }
-.service-ira-page .footer-contact { margin-top: 10px; overflow-wrap: anywhere; }
-.service-ira-page .footer-contact a { display: block; }
-.service-ira-page .legal { display: flex; justify-content: space-between; gap: 15px; margin-top: 27px; padding: 15px 0 10px; border-top: 1px solid var(--dark-line); }
-.service-ira-page .legal a + a { margin-left: 16px; }
-.service-ira-page .disclaimer { max-width: 106ch; }
 @media (max-width: 980px) {
 .service-ira-page .hero-grid { gap: 28px; }
 .service-ira-page .navigation { gap: 14px; font-size: 12px; }
@@ -144,17 +132,14 @@
 .service-ira-page .hero figure { max-width: 530px; }
 .service-ira-page .portrait { aspect-ratio: 1.4; }
 .service-ira-page .portrait img { object-position: center top; }
-.service-ira-page .values ul, .service-ira-page .investment-grid, .service-ira-page .footer-grid { grid-template-columns: repeat(2, 1fr); }
+.service-ira-page .values ul, .service-ira-page .investment-grid { grid-template-columns: repeat(2, 1fr); }
 .service-ira-page .values li { padding: 9px 6px; line-height: 1.4; }
 .service-ira-page .values li:nth-child(3) { border-left: none; }
 .service-ira-page .values li:nth-child(n+3) { border-top: 1px solid var(--line); }
-.service-ira-page .legal { flex-wrap: wrap; }
 }
 @media (max-width: 490px) {
 .service-ira-page .plan-grid, .service-ira-page .investment-grid, .service-ira-page .principles, .service-ira-page .rows a { grid-template-columns: 1fr; }
 .service-ira-page .rows a { gap: 2px; }
-.service-ira-page .footer-grid { gap: 21px 15px; }
-.service-ira-page .footer-grid > :first-child { grid-column: 1 / -1; }
 }
 .service-ira-page { --article-space: clamp(52px, 6vw, 91px);
   --paper: #fbf8f1;
@@ -312,7 +297,6 @@
 .service-ira-page .plan-body h3, .service-ira-page .investment-card h3 { font-size: clamp(23px, 2.55vw, 36px); }
 .service-ira-page .plan-body p:not(.eyebrow), .service-ira-page .investment-card p, .service-ira-page .investment-card summary { font-size: 14px; }
 .service-ira-page .values { background: #e9dfce; }
-.service-ira-page .footer-grid h3 { font-size: 23px; }
 .service-ira-page .section { --article-space: clamp(54px, 6vw, 92px); }
 .service-ira-page .standard.statement { background: var(--black-accent); overflow: hidden; }
 .service-ira-page .statement .statement-layout { display: grid; justify-items: center; text-align: center; }
@@ -391,7 +375,6 @@
 .service-ira-page .statement .button { margin-top: 0; }
 .service-ira-page .statement .standard-stage .motion-toggle { background: #181818; color: #fff9eb; border-color: #847d70; }
 .service-ira-page .statement .statement-copy { width: auto; max-width: 1232px; padding-block: 28px 32px; column-gap: clamp(24px, 7vw, 94px); border-top: 1px solid var(--dark-line); }
-.service-ira-page .footer.dark { background: #111111; }
 @media (max-width: 760px) {
 .service-ira-page .standard-stage { min-height: 0; }
 .service-ira-page .standard-stage::before { background: linear-gradient(90deg,rgb(17 17 17 / .97),rgb(17 17 17 / .64)), linear-gradient(0deg,#111,transparent 42%); }
