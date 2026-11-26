@@ -31,7 +31,7 @@
 .homepage-page h1 { font-size: clamp(55px, 6.3vw, 105px); line-height: .89; letter-spacing: -.025em; }
 .homepage-page h2 { font-size: clamp(41px, 4.6vw, 67px); letter-spacing: -.015em; text-wrap: balance; }
 .homepage-page h3 { font-size: clamp(29px, 2.7vw, 40px); }
-.homepage-page .wrap { max-width: 1400px; margin-inline: auto; padding-inline: 20px; }
+.homepage-page .wrap { width: 100%; max-width: 1400px; margin-inline: auto; padding-inline: 20px; }
 .homepage-page .dark { color: var(--on-dark); background: var(--night); }
 .homepage-page .eyebrow { color: var(--bronze); font-size: 11px; line-height: 1.55; font-weight: 600; letter-spacing: .115em; text-transform: uppercase; margin-bottom: 12px; }
 .homepage-page .dark .eyebrow { color: var(--gold); }
@@ -222,7 +222,7 @@
 .homepage-page .distinction .fine { color: #50473a; }
 .homepage-page .distinction .callout { border-color: #9c7545; font-size: clamp(20px, 2.2vw, 27px); }
 .homepage-page .investments-section { padding-top: 0; padding-bottom: clamp(28px, 4vw, 40px); }
-.homepage-page .investments-banner { min-height: 365px; display: grid; align-items: center; position: relative; isolation: isolate; padding-block: clamp(41px, 6vw, 82px); border-bottom: 1px solid var(--dark-line); }
+.homepage-page .investments-banner { min-height: 365px; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; position: relative; isolation: isolate; padding-block: clamp(41px, 6vw, 82px); border-bottom: 1px solid var(--dark-line); }
 .homepage-page .investments-banner::before { position: absolute; inset: 0; z-index: -1; content: ""; background: linear-gradient(90deg,#161512 1%,rgb(22 21 18 / .94) 34%,rgb(22 21 18 / .74) 61%,rgb(22 21 18 / .22)); }
 .homepage-page .investments-photo { position: absolute; inset: 0; z-index: -2; object-position: right 47%; }
 .homepage-page .investments-banner .section-intro { max-width: 650px; }
@@ -253,7 +253,7 @@
 .homepage-page .faq-section { background: #f4eee3; }
 .homepage-page .faq-list { background: #fffcf5; padding-inline: clamp(12px, 3vw, 30px); border: 1px solid var(--line); }
 .homepage-page .faq-list details:last-child { border-bottom: 0; }
-.homepage-page .closing { position: relative; z-index: 0; isolation: isolate; min-height: 460px; display: grid; align-items: center; }
+.homepage-page .closing { position: relative; z-index: 0; isolation: isolate; min-height: 460px; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; }
 .homepage-page .closing-photo { position: absolute; inset: 0; z-index: -2; object-position: 50% 47%; }
 .homepage-page .closing::before { position: absolute; inset: 0; z-index: -1; content: ""; background: linear-gradient(95deg,rgb(19 17 15 / .97),rgb(19 17 15 / .86) 53%,rgb(19 17 15 / .70)); }
 .homepage-page .closing .editorial { align-items: center; }
@@ -378,7 +378,7 @@
 .homepage-page .faq-topic .faq-list summary { min-height: 55px; }
 }
 .homepage-page .standard.statement { padding: 0; background: var(--night); }
-.homepage-page .standard-stage { position: relative; isolation: isolate; display: grid; align-items: center; min-height: 530px; }
+.homepage-page .standard-stage { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; min-height: 530px; }
 .homepage-page .standard-stage::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg,#111 0%,#111 27%,rgb(17 17 17 / .95) 39%,rgb(17 17 17 / .61) 59%,rgb(17 17 17 / .16) 100%), linear-gradient(0deg,rgb(17 17 17 / .78),transparent 29%); }
 .homepage-page .standard-video { position: absolute; inset: 0 0 0 auto; z-index: -2; width: min(78%, 1500px); height: 100%; object-fit: cover; object-position: 65% 48%; filter: saturate(.48); }
 .homepage-page .standard-stage-inner { padding-block: clamp(59px, 7vw, 100px); }
