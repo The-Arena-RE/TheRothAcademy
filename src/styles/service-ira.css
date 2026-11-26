@@ -126,13 +126,11 @@
 .service-ira-page .legal a + a { margin-left: 16px; }
 .service-ira-page .disclaimer { max-width: 106ch; }
 @media (max-width: 980px) {
-.service-ira-page .wrap { width: calc(100% - 64px); }
 .service-ira-page .hero-grid { gap: 28px; }
 .service-ira-page .navigation { gap: 14px; font-size: 12px; }
 }
 @media (max-width: 760px) {
 .service-ira-page { font-size: 14px; }
-.service-ira-page .wrap { width: calc(100% - 40px); }
 .service-ira-page .site-header { position: relative; }
 .service-ira-page .header-inner { min-height: 67px; }
 .service-ira-page .brand img { height: 48px; }

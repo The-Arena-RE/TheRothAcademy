@@ -126,13 +126,11 @@
 .learn-page .legal a + a { margin-left: 16px; }
 .learn-page .disclaimer { max-width: 106ch; }
 @media (max-width: 980px) {
-.learn-page .wrap { width: calc(100% - 64px); }
 .learn-page .hero-grid { gap: 28px; }
 .learn-page .navigation { gap: 14px; font-size: 12px; }
 }
 @media (max-width: 760px) {
 .learn-page { font-size: 14px; }
-.learn-page .wrap { width: calc(100% - 40px); }
 .learn-page .site-header { position: relative; }
 .learn-page .header-inner { min-height: 67px; }
 .learn-page .brand img { height: 48px; }
@@ -794,13 +792,11 @@
 .learn-page .learn-close .learn-wrap { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 25px 60px; }
 .learn-page .learn-close p:not(.eyebrow) { color: var(--dark-muted); }
 @media(max-width: 990px) {
-.learn-page .learn-wrap { width: calc(100% - 64px); }
 .learn-page .collection-card { grid-template-columns: 1fr; }
 .learn-page .collection-card .cover { min-height: 158px; }
 .learn-page .collection-copy { min-height: 0; }
 }
 @media(max-width: 760px) {
-.learn-page .learn-wrap { width: calc(100% - 40px); }
 .learn-page .learn-hero { min-height: 0; }
 .learn-page .learn-hero .learn-wrap { padding-block: 110px 58px; }
 .learn-page .learn-hero > img { width: 100%; object-position: 67% center; }
