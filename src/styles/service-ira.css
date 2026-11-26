@@ -701,7 +701,7 @@
 }
 .service-ira-page .ira-photo-hero > img { object-position: right 46%; width: 78%; filter: saturate(.66); }
 .service-ira-page .ira-photo-hero::before { background: linear-gradient(90deg,#111 0%,rgb(17 17 17 / .98) 23%,rgb(17 17 17 / .85) 38%,rgb(17 17 17 / .31) 74%,rgb(17 17 17 / .13)),linear-gradient(0deg,rgb(17 17 17 / .60),transparent 70%); }
-.service-ira-page .ira-photo-hero .service-hero-inner > div { max-width: 850px; }
+.service-ira-page .ira-photo-hero .service-hero-inner > div { max-width: 785px; }
 .service-ira-page .overview-ira .service-intro { margin-bottom: 0; }
 .service-ira-page .ira-overview-support { padding: 19px 24px; border: 1px solid var(--line); border-left: 3px solid #ad8750; background: #fffbf2; }
 .service-ira-page .ira-examples > .wrap { display: contents; }
