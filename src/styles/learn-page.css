@@ -333,7 +333,7 @@
 .learn-page .guide .resource-panel li + li { margin-top: 0; }
 .learn-page .guide .resource-panel a { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #d4cbbd; padding: 12px 0; color: #302a20; text-decoration: none; }
 .learn-page .guide .resource-panel a:hover { text-decoration: underline; }
-.learn-page .guide .resource-panel a::after { content: "\2197\FE0E"; flex: none; }
+.learn-page .guide .resource-panel a::after { content: "\2192\FE0E"; font-size: 0.8em; flex: none; }
 .learn-page .route-picker { background: #eae5d7; border-block: 1px solid var(--line); }
 .learn-page .route-picker .section-intro { margin: 0 auto 25px; text-align: center; }
 .learn-page .route-picker .route-featured, .learn-page .route-picker .route-secondary { display: grid; }
