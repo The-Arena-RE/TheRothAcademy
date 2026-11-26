@@ -335,7 +335,7 @@
 .service-ira-page .guide .resource-panel li + li { margin-top: 0; }
 .service-ira-page .guide .resource-panel a { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #d4cbbd; padding: 12px 0; color: #302a20; text-decoration: none; }
 .service-ira-page .guide .resource-panel a:hover { text-decoration: underline; }
-.service-ira-page .guide .resource-panel a::after { content: "↗"; flex: none; }
+.service-ira-page .guide .resource-panel a::after { content: "\2197\FE0E"; flex: none; }
 .service-ira-page .route-picker { background: #eae5d7; border-block: 1px solid var(--line); }
 .service-ira-page .route-picker .section-intro { margin: 0 auto 25px; text-align: center; }
 .service-ira-page .route-picker .route-featured, .service-ira-page .route-picker .route-secondary { display: grid; }
