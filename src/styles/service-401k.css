@@ -31,7 +31,7 @@
 .service-401k-page h1 { font-size: clamp(55px, 6.3vw, 105px); line-height: .89; letter-spacing: -.025em; }
 .service-401k-page h2 { font-size: clamp(41px, 4.6vw, 67px); letter-spacing: -.015em; text-wrap: balance; }
 .service-401k-page h3 { font-size: clamp(29px, 2.7vw, 40px); }
-.service-401k-page .wrap { width: min(100% - 96px, 1232px); margin-inline: auto; }
+.service-401k-page .wrap { max-width: 1400px; margin-inline: auto; padding-inline: 20px; }
 .service-401k-page .dark { color: var(--on-dark); background: var(--night); }
 .service-401k-page .eyebrow { color: var(--bronze); font-size: 11px; line-height: 1.55; font-weight: 600; letter-spacing: .115em; text-transform: uppercase; margin-bottom: 12px; }
 .service-401k-page .dark .eyebrow { color: var(--gold); }
@@ -67,11 +67,9 @@
 .service-401k-page .faq-list details > p { padding: 0 20px 15px 4px; color: var(--muted); }
 .service-401k-page .dedication { display: flex; flex-wrap: wrap; gap: 4px 11px; margin-top: 6px; color: var(--gold); font-size: 11px; }
 @media (max-width: 980px) {
-.service-401k-page .wrap { width: calc(100% - 64px); }
 }
 @media (max-width: 760px) {
 .service-401k-page { font-size: 14px; }
-.service-401k-page .wrap { width: calc(100% - 40px); }
 .service-401k-page .navigation > :not(.button) { padding: 9px 4px; }
 .service-401k-page .navigation .button { align-self: flex-start; margin-top: 5px; }
 }
@@ -83,7 +81,7 @@
 .service-401k-page .reveal summary, .service-401k-page .investment-card summary { width: fit-content; padding: 6px 0; color: var(--bronze); font-size: 13px; font-weight: 600; cursor: pointer; }
 .service-401k-page .reveal summary:hover, .service-401k-page .investment-card summary:hover { text-decoration: underline; text-underline-offset: 4px; }
 .service-401k-page .reveal + .fine { margin-top: 13px; }
-.service-401k-page #pathways .wrap { width: min(100% - 64px, 1392px); }
+.service-401k-page #pathways .wrap { max-width: 1560px; }
 .service-401k-page .plan-body p:not(.eyebrow) { margin-top: 1px; color: var(--muted); font-size: 13px; line-height: 1.65; }
 .service-401k-page .plan-body .number { letter-spacing: .15em; }
 .service-401k-page .distinction .fine { color: #50473a; }
@@ -96,7 +94,6 @@
 .service-401k-page .faq-list details:last-child { border-bottom: 0; }
 .service-401k-page .closing .actions { margin-top: 15px; }
 @media (max-width: 760px) {
-.service-401k-page #pathways .wrap { width: calc(100% - 40px); }
 }
 .service-401k-page { font-size: 16px; line-height: 1.65; }
 .service-401k-page h1, .service-401k-page h2, .service-401k-page h3 { font-optical-sizing: auto; font-weight: 500; }

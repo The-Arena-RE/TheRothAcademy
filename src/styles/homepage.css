@@ -31,7 +31,7 @@
 .homepage-page h1 { font-size: clamp(55px, 6.3vw, 105px); line-height: .89; letter-spacing: -.025em; }
 .homepage-page h2 { font-size: clamp(41px, 4.6vw, 67px); letter-spacing: -.015em; text-wrap: balance; }
 .homepage-page h3 { font-size: clamp(29px, 2.7vw, 40px); }
-.homepage-page .wrap { width: min(100% - 96px, 1232px); margin-inline: auto; }
+.homepage-page .wrap { max-width: 1400px; margin-inline: auto; padding-inline: 20px; }
 .homepage-page .dark { color: var(--on-dark); background: var(--night); }
 .homepage-page .eyebrow { color: var(--bronze); font-size: 11px; line-height: 1.55; font-weight: 600; letter-spacing: .115em; text-transform: uppercase; margin-bottom: 12px; }
 .homepage-page .dark .eyebrow { color: var(--gold); }
@@ -142,13 +142,11 @@
 .homepage-page .legal a + a { margin-left: 16px; }
 .homepage-page .disclaimer { max-width: 106ch; }
 @media (max-width: 980px) {
-.homepage-page .wrap { width: calc(100% - 64px); }
 .homepage-page .hero-grid { gap: 28px; }
 .homepage-page .navigation { gap: 14px; font-size: 12px; }
 }
 @media (max-width: 760px) {
 .homepage-page { font-size: 14px; }
-.homepage-page .wrap { width: calc(100% - 40px); }
 .homepage-page .site-header { position: relative; }
 .homepage-page .header-inner { min-height: 67px; }
 .homepage-page .brand img { height: 48px; }
@@ -199,7 +197,7 @@
 .homepage-page .values { background: #e8ddc8; }
 .homepage-page .values li { color: #493d2e; }
 .homepage-page .section { padding-block: var(--article-space); }
-.homepage-page #pathways .wrap { width: min(100% - 64px, 1392px); }
+.homepage-page #pathways .wrap { max-width: 1560px; }
 .homepage-page #pathways .section-intro, .homepage-page #pathways .section-intro + p { margin-inline: auto; text-align: center; }
 .homepage-page .plan-grid { gap: 20px; margin-top: 28px; }
 .homepage-page .plan-card { display: grid; grid-template-columns: minmax(120px, .92fr) 1.28fr; padding: 0; gap: 0; border-top: 1px solid var(--line); }
@@ -274,7 +272,6 @@
 .homepage-page .hero h1 { font-size: clamp(51px, 10.25vw, 78px); }
 .homepage-page .hero::before { background: linear-gradient(90deg,rgb(20 17 14 / .91),rgb(20 17 14 / .73)); }
 .homepage-page .motion-toggle { right: 20px; bottom: 14px; }
-.homepage-page #pathways .wrap { width: calc(100% - 40px); }
 .homepage-page .distinction-layout, .homepage-page .profile-layout { grid-template-columns: 1fr; }
 .homepage-page .distinction .bleed-media { min-height: 235px; }
 .homepage-page .distinction-copy { padding-inline: 20px; }
