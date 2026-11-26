@@ -26,6 +26,7 @@ const EDITORIAL_FOOTER_SCOPE: Record<string, string> = {
   "/services/self-directed-401k": "service-401k-page",
   "/services/self-directed-ira": "service-ira-page",
   "/learn": "learn-page",
+  "/contact": "contact-page",
 };
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
