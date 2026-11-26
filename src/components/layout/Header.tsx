@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { clsx } from "clsx";
-import { mainNav, planDestinations } from "@/data/site-config";
+import { mainNav, planDestinations, taxAcademy } from "@/data/site-config";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 
 export function Header() {
@@ -53,12 +53,12 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-6">
-            <span
-              aria-disabled="true"
-              className="font-body text-[12px] font-medium uppercase tracking-wide text-r-muted"
+            <a
+              href={taxAcademy.loginUrl}
+              className="font-body text-[12px] font-medium uppercase tracking-wide text-r-muted transition-colors hover:text-r-white"
             >
               Client Login
-            </span>
+            </a>
             <span aria-hidden className="h-4 w-px bg-r-line" />
             <Link
               href={planDestinations.openPlan}

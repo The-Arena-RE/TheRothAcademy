@@ -59,12 +59,14 @@ export const footerNav = {
   },
 };
 
-// Features referenced in navigation but not yet built. Rendered as
-// disabled, non-interactive items with a "Coming soon" badge rather
-// than a dead or placeholder link.
+export const taxAcademy = {
+  url: "https://thetaxacademy.com/",
+  loginUrl: "https://thetaxacademy.com/login",
+};
+
 export const comingSoon = [
-  { label: "Client login" },
-  { label: "Tax Academy" },
+  { label: "Client login", href: taxAcademy.loginUrl },
+  { label: "Tax Academy", href: taxAcademy.url },
 ];
 
 export const legalNav = [

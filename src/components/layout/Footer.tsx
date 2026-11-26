@@ -54,9 +54,12 @@ export function Footer() {
                   <ul className="mt-3 space-y-3">
                     {comingSoon.map((item) => (
                       <li key={item.label}>
-                        <span aria-disabled="true" className="text-sm text-r-muted font-body normal-case">
+                        <a
+                          href={item.href}
+                          className="text-sm text-r-muted hover:text-r-white transition-colors font-body normal-case"
+                        >
                           {item.label}
-                        </span>
+                        </a>
                       </li>
                     ))}
                   </ul>
