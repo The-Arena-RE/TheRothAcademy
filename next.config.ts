@@ -22,30 +22,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Temporary client-review draft, served as a static file (not a real app
-  // route) so it keeps its own standalone <html> document. Remove this
-  // rewrite, the noindex header below, and public/homepage-draft.html once
-  // the client review is done.
-  async rewrites() {
-    return [
-      {
-        source: "/homepage-draft",
-        destination: "/homepage-draft.html",
-      },
-    ];
-  },
-  async headers() {
-    return [
-      {
-        source: "/homepage-draft",
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
-      },
-      {
-        source: "/homepage-draft.html",
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
-      },
-    ];
-  },
 };
 
 export default nextConfig;

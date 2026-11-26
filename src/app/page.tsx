@@ -1,46 +1,33 @@
-import { HeroSection } from "@/components/home/HeroSection";
-import { ControversyShowcase } from "@/components/home/ControversyShowcase";
-import { QualificationShowcase } from "@/components/home/QualificationShowcase";
-import { AssetClassSection } from "@/components/home/AssetClassSection";
-import { PathwaysSection } from "@/components/home/PathwaysSection";
-import { StandardSection } from "@/components/home/StandardSection";
-import { CompanyCredibilitySection } from "@/components/home/CompanyCredibilitySection";
-import { ObjectionBreakerSection } from "@/components/home/ObjectionBreakerSection";
-import { PathwayTableSection } from "@/components/home/PathwayTableSection";
-import { FaqSection } from "@/components/home/FaqSection";
-import { ClosingStatement } from "@/components/home/ClosingStatement";
-import { finalConversionContent } from "@/data/home-content";
-import { planDestinations } from "@/data/site-config";
+import "@/styles/homepage.css";
+import { newsreader, dmSans } from "@/lib/homepage-fonts";
+import { Hero2 } from "@/components/home2/Hero2";
+import { ValuesBar } from "@/components/home2/ValuesBar";
+import { Pathways2 } from "@/components/home2/Pathways2";
+import { QuestionSection } from "@/components/home2/QuestionSection";
+import { DistinctionSection } from "@/components/home2/DistinctionSection";
+import { Investments2 } from "@/components/home2/Investments2";
+import { ProfileSection } from "@/components/home2/ProfileSection";
+import { StandardStatementSection } from "@/components/home2/StandardStatementSection";
+import { RulesGuideSection } from "@/components/home2/RulesGuideSection";
+import { RoutePickerSection } from "@/components/home2/RoutePickerSection";
+import { HomeFaqSection } from "@/components/home2/HomeFaqSection";
+import { ClosingSection2 } from "@/components/home2/ClosingSection2";
 
 export default function Home() {
   return (
-    <>
-      <HeroSection />
-      <ControversyShowcase />
-      <QualificationShowcase />
-      <AssetClassSection />
-      <PathwaysSection />
-      <CompanyCredibilitySection />
-      <StandardSection />
-      <ObjectionBreakerSection />
-      <PathwayTableSection />
-      <FaqSection />
-      <ClosingStatement
-        eyebrow="Your Next Move"
-        heading={finalConversionContent.heading.map((line, index) => (
-          <span key={line} className={index === finalConversionContent.heading.length - 1 ? "text-r-gold" : undefined}>
-            {line}
-            <br />
-          </span>
-        ))}
-        description={finalConversionContent.description}
-        primaryLabel="Explore the Self-Directed 401(k)"
-        primaryHref={planDestinations.open401k}
-        secondaryLabel="Explore the Self-Directed IRA"
-        secondaryHref={planDestinations.openIra}
-        secondaryStyle="button"
-        signature={finalConversionContent.signature}
-      />
-    </>
+    <div className={`${newsreader.variable} ${dmSans.variable} homepage-page`}>
+      <Hero2 />
+      <ValuesBar />
+      <Pathways2 />
+      <QuestionSection />
+      <DistinctionSection />
+      <Investments2 />
+      <ProfileSection />
+      <StandardStatementSection />
+      <RulesGuideSection />
+      <RoutePickerSection />
+      <HomeFaqSection />
+      <ClosingSection2 />
+    </div>
   );
 }
