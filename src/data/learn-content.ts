@@ -1,7 +1,6 @@
 export const learnHero = {
   eyebrow: "The Knowledge Library",
-  title: ["The More You", "Know. The", "Further You See."],
-  goldLine: 2,
+  title: ["The More You Know.", "The Further You See."],
   description:
     "What if your retirement account could invest in something you've actually dreamed of owning? A rental property. A piece of land. A private business. An investment that pays interest. Discover extraordinary investment possibilities through simple explanations, fascinating real-world-style examples, and lessons created for people just like you. Whether you're starting small or investing millions, there's something worth discovering.",
 };
@@ -14,7 +13,7 @@ export const learnCollections = [
       "Imagine investing in vacant land, rental houses, private loans, commercial properties, or private businesses through a qualifying self-directed 401(k). Whether you're a contractor, freelancer, truck driver, real estate professional, business owner, or sophisticated entrepreneur, discover investment possibilities you may never have considered.",
     ctaLabel: "Explore the 401(k) Library",
     href: "/learn/self-directed-401k",
-    image: "/pathways/401k.webp",
+    image: "/learn/collection-401k.webp",
   },
   {
     eyebrow: "The Individual Investor's Collection",
@@ -23,7 +22,7 @@ export const learnCollections = [
       "Imagine owning investment land, collecting rental income, receiving interest from private loans, or investing in privately held companies through a qualifying self-directed IRA. Whether you're a teacher, nurse, construction worker, young investor, experienced landlord, or multimillionaire, discover opportunities beyond the investments traditionally offered by brokerage accounts. You don't need to own a business to establish an IRA.",
     ctaLabel: "Explore the IRA Library",
     href: "/learn/self-directed-ira",
-    image: "/pathways/ira.webp",
+    image: "/learn/collection-ira.webp",
   },
 ];
 
