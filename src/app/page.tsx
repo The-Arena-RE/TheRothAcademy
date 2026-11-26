@@ -1,5 +1,5 @@
 import "@/styles/homepage.css";
-import { newsreader, dmSans } from "@/lib/homepage-fonts";
+import { newsreader, dmSans } from "@/lib/editorial-fonts";
 import { Hero2 } from "@/components/home2/Hero2";
 import { ValuesBar } from "@/components/home2/ValuesBar";
 import { Pathways2 } from "@/components/home2/Pathways2";

@@ -1,7 +1,7 @@
 "use client";
 
 import { heroContent } from "@/data/homepage-v2-content";
-import { Reveal } from "./Reveal";
+import { Reveal } from "@/components/editorial/Reveal";
 import { useVideoBackground } from "./useVideoBackground";
 
 export function Hero2() {

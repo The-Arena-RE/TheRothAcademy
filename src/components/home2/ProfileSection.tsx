@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { profileContent } from "@/data/homepage-v2-content";
-import { Reveal } from "./Reveal";
+import { Reveal } from "@/components/editorial/Reveal";
 
 export function ProfileSection() {
   return (

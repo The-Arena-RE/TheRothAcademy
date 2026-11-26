@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { distinctionContent } from "@/data/homepage-v2-content";
-import { Reveal } from "./Reveal";
+import { Reveal } from "@/components/editorial/Reveal";
 
 export function DistinctionSection() {
   return (

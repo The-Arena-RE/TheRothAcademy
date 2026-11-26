@@ -1,5 +1,5 @@
 import { questionContent } from "@/data/homepage-v2-content";
-import { Reveal } from "./Reveal";
+import { Reveal } from "@/components/editorial/Reveal";
 
 export function QuestionSection() {
   return (
