@@ -181,7 +181,7 @@
 .homepage-page .hero-stage, .homepage-page .hero::before { position: absolute; inset: 0; width: 100%; height: 100%; }
 .homepage-page .hero-stage { z-index: -2; object-fit: cover; object-position: center 55%; }
 .homepage-page .hero::before { content: ""; z-index: -1; background: linear-gradient(90deg, rgb(20 17 14 / .96) 0%, rgb(20 17 14 / .84) 38%, rgb(20 17 14 / .61) 60%, rgb(20 17 14 / .23) 100%); }
-.homepage-page .hero .hero-grid { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: min(640px, 76svh); padding-block: 78px 84px; }
+.homepage-page .hero .hero-grid { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: min(640px, 76svh); padding-block: 132px 84px; }
 .homepage-page .hero-copy { max-width: 700px; }
 .homepage-page .hero h1 { font-size: clamp(62px, 8.2vw, 122px); text-wrap: initial; }
 .homepage-page .hero h1 span { display: block; }
