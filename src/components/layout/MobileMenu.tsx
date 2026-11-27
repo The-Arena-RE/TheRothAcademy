@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { mainNav, planDestinations, taxAcademy } from "@/data/site-config";
+import { mainNav, planDestinations } from "@/data/site-config";
 
 function subscribeNoop() {
   return () => {};
@@ -104,13 +104,6 @@ export function MobileMenu() {
           </Link>
 
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <a
-              href={taxAcademy.loginUrl}
-              onClick={close}
-              className="font-body text-sm font-medium uppercase tracking-wide text-r-muted transition-colors hover:text-r-gold"
-            >
-              Client Login
-            </a>
             <Link
               href="/contact"
               onClick={close}

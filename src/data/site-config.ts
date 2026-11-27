@@ -59,16 +59,6 @@ export const footerNav = {
   },
 };
 
-export const taxAcademy = {
-  url: "https://thetaxacademy.com/",
-  loginUrl: "https://thetaxacademy.com/login",
-};
-
-export const comingSoon = [
-  { label: "Client login", href: taxAcademy.loginUrl },
-  { label: "Tax Academy", href: taxAcademy.url },
-];
-
 export const legalNav = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms of use", href: "/terms" },

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { clsx } from "clsx";
-import { siteConfig, footerNav, legalNav, comingSoon } from "@/data/site-config";
+import { siteConfig, footerNav, legalNav } from "@/data/site-config";
 
 export function Footer() {
   const columns = [footerNav.startHere, footerNav.academy, footerNav.nextStep];
@@ -50,28 +50,14 @@ export function Footer() {
                 ))}
               </ul>
               {column === footerNav.nextStep && (
-                <>
-                  <ul className="mt-3 space-y-3">
-                    {comingSoon.map((item) => (
-                      <li key={item.label}>
-                        <a
-                          href={item.href}
-                          className="text-sm text-r-muted hover:text-r-white transition-colors font-body normal-case"
-                        >
-                          {item.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-4 space-y-1 text-sm text-r-muted font-body normal-case">
-                    <a href={`mailto:${siteConfig.email}`} className="block hover:text-r-white transition-colors">
-                      {siteConfig.email}
-                    </a>
-                    <a href={`tel:${siteConfig.phoneTel}`} className="block hover:text-r-white transition-colors">
-                      {siteConfig.phone}
-                    </a>
-                  </div>
-                </>
+                <div className="mt-3 space-y-1 text-sm text-r-muted font-body normal-case">
+                  <a href={`mailto:${siteConfig.email}`} className="block hover:text-r-white transition-colors">
+                    {siteConfig.email}
+                  </a>
+                  <a href={`tel:${siteConfig.phoneTel}`} className="block hover:text-r-white transition-colors">
+                    {siteConfig.phone}
+                  </a>
+                </div>
               )}
             </div>
           ))}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { siteConfig, footerNav, legalNav, comingSoon } from "@/data/site-config";
+import { siteConfig, footerNav, legalNav } from "@/data/site-config";
 
 export function EditorialFooter() {
   return (
@@ -48,11 +48,6 @@ export function EditorialFooter() {
               {footerNav.nextStep.links.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>{link.label}</Link>
-                </li>
-              ))}
-              {comingSoon.map((item) => (
-                <li key={item.label}>
-                  <a href={item.href}>{item.label}</a>
                 </li>
               ))}
             </ul>
