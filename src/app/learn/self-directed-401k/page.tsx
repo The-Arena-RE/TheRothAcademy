@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ServiceHero } from "@/components/services/ServiceHero";
-import { CollectionDirectory } from "@/components/learn/CollectionDirectory";
-import { SupportBanner } from "@/components/ui/SupportBanner";
-import { curriculum401k } from "@/data/learn-curriculum";
-import { planDestinations } from "@/data/site-config";
+import "@/styles/learn-401k-library.css";
+import { newsreader, dmSans } from "@/lib/editorial-fonts";
+import { Learn401kLibraryHero } from "@/components/learn-401k-library/Learn401kLibraryHero";
+import { Learn401kLibraryCatalog } from "@/components/learn-401k-library/Learn401kLibraryCatalog";
+import { Learn401kLibraryHelp } from "@/components/learn-401k-library/Learn401kLibraryHelp";
 
 export const metadata: Metadata = {
   title: "Self-Directed 401(k) Learning Library",
@@ -14,25 +14,10 @@ export const metadata: Metadata = {
 
 export default function SelfDirected401kLibraryPage() {
   return (
-    <>
-      <ServiceHero
-        eyebrow="The Entrepreneur's Collection"
-        title={["You Built Something", "Of Your Own.", "Discover What Else", "You Could Build."]}
-        goldLine={2}
-        description="Imagine investing in vacant land, rental houses, private loans, commercial properties, or private businesses through a qualifying self-directed 401(k). Explore fascinating investment examples, real numbers, and easy-to-understand lessons designed for eligible self-employed individuals and business owners."
-        imageSrc="/pathways/401k.webp"
-        primaryCta={{ label: "Start My Self-Directed 401(k)", href: planDestinations.open401k }}
-        secondaryCta={{ label: "Not Sure Which Plan Fits?", href: "/plans" }}
-      />
-
-      <CollectionDirectory collection="401k" modules={curriculum401k} />
-
-      <SupportBanner
-        heading="Not Sure Which Plan Fits?"
-        description="Compare the self-directed 401(k) and IRA side by side, or tell the team about your situation."
-        cta="Compare Your Options"
-        href="/plans"
-      />
-    </>
+    <div className={`${newsreader.variable} ${dmSans.variable} learn-401k-library-page`}>
+      <Learn401kLibraryHero />
+      <Learn401kLibraryCatalog />
+      <Learn401kLibraryHelp />
+    </div>
   );
 }
