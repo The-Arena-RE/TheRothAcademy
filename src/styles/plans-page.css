@@ -769,7 +769,9 @@
 .plans-page .finder-card .result-links { border-top: 1px solid #cbb998; padding-top: 10px; width: 100%; }
 .plans-page .profile-band { background: #ece4d3; }
 .plans-page .profile-grid, .plans-page .standard-grid { display: grid; gap: 18px; margin-top: 23px; }
-.plans-page .profile-grid { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; }
+.plans-page .profile-grid { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: stretch; }
+.plans-page .plan-profile { display: flex; flex-direction: column; }
+.plans-page .plan-profile .actions { margin-top: auto; padding-top: clamp(15px, 2.4vw, 20px); }
 .plans-page .plan-profile { min-width: 0; padding: clamp(20px,3.2vw,38px); background: #fffbf3; border: 1px solid #c9baa1; border-top: 3px solid #ae8c53; }
 .plans-page .plan-profile > h3 { font-size: clamp(31px,3.6vw,49px); }
 .plans-page .plan-profile p:not(.eyebrow) { color: var(--muted); }

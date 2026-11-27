@@ -10,13 +10,8 @@ export function PlansFaqSection() {
         </div>
         <div className="faq-list">
           {plansFaqItems.map((item) => (
-            <details name="plans-faq" className="plans-disclosure" key={item.question}>
-              <summary>
-                {item.question}
-                <span aria-hidden="true" className="mark">
-                  +
-                </span>
-              </summary>
+            <details name="plans-faq" key={item.question}>
+              <summary>{item.question}</summary>
               <p>{item.answer}</p>
             </details>
           ))}
